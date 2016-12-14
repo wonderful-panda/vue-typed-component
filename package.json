@@ -1,0 +1,27 @@
+{
+  "name": "vue-typesafe-component",
+  "version": "0.0.1",
+  "description": "vue-class-component wrapper to make components typesafe",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wonderful-panda/vue-typesafe-component"
+  },
+  "keywords": [
+    "vue",
+    "typescript"
+  ],
+  "author": "Iwata Hidetaka <iwata0303@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^2.1.4"
+  },
+  "dependencies": {
+    "vue": "^2.1.5",
+    "vue-class-component": "^4.3.1"
+  }
+}
