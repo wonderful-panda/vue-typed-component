@@ -20,26 +20,29 @@ export type ComponentOptions<V extends Vue, Props> = Vue.ComponentOptions<V> & {
 }
 
 /*
- * Wrapped type of Vue.VnodeData which makes `props` and `on` typesafe
- */
-export type VNodeData<Props, Events> = Vue.VNodeData & {
-    props: Partial<Props>,
-    on?: { [K in keyof Events]?: EventHandler<Events[K]> }
-};
-
-/*
  * Base class for typesafe component
  */
 @component_<VueComponent<any, any>>({
     beforeCreate() {
         this.$props = this;
-        this.$emitEvent = this.$emit;
+        this.$events = {
+            emit: this.$emit.bind(this),
+            on: this.$on.bind(this),
+            once: this.$once.bind(this),
+            off: this.$off.bind(this)
+        };
     }
 })
 export class VueComponent<Props, Events> extends Vue {
     $props: Props;
-    $emitEvent: <K extends keyof Events>(event: K, arg: Events[K]) => this;
+    $events: {
+        emit: <K extends keyof Events>(event: K, arg: Events[K]) => any;
+        on: <K extends keyof Events>(event: K, callback: (arg: Events[K]) => any) => any;
+        once: <K extends keyof Events>(event: K, callback: (arg: Events[K]) => any) => any;
+        off: <K extends keyof Events>(event: K, callback?: (arg: Events[K]) => any) => any;
+    };
 }
+
 
 /*
  * Base class for typesafe component with $data
@@ -57,14 +60,4 @@ export interface ComponentDecorator {
  * decorator with typesafe interface
  */
 export const component: ComponentDecorator = component_;
-
-/*
- * create element from VueComponent
- */
-export function createVueComponentElement<Props, Events, V extends VueComponent<Props, Events>>(
-                    h: Vue.CreateElement, tag: VueClass<V>,
-                    data: VNodeData<Props, Events>,
-                    children?: Vue.VNodeChildren): Vue.VNode {
-    return h(tag, data, children);
-}
 
