@@ -26,7 +26,12 @@ VueComponent = __decorate([
     vue_class_component_1.default({
         beforeCreate: function () {
             this.$props = this;
-            this.$emitEvent = this.$emit;
+            this.$events = {
+                emit: this.$emit.bind(this),
+                on: this.$on.bind(this),
+                once: this.$once.bind(this),
+                off: this.$off.bind(this)
+            };
         }
     })
 ], VueComponent);
@@ -46,10 +51,3 @@ exports.VueStatefulComponent = VueStatefulComponent;
  * decorator with typesafe interface
  */
 exports.component = vue_class_component_1.default;
-/*
- * create element from VueComponent
- */
-function createVueComponentElement(h, tag, data, children) {
-    return h(tag, data, children);
-}
-exports.createVueComponentElement = createVueComponentElement;
