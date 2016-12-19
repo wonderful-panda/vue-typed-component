@@ -2,9 +2,9 @@ var path = require("path");
 
 module.exports = {
     context: __dirname,
-    entry: "./src/test.ts",
+    entry: "./test.ts",
     output: {
-        path: path.join(__dirname, "dist"),
+        path: path.join(__dirname, ".dist"),
         filename: "build.js"
     },
     devtool: 'source-map',
