@@ -1,6 +1,6 @@
 // Karma configuration
 
-var webpackConf = require('./test/webpack.config.js');
+var webpackConf = require('./webpack.config.js');
 webpackConf.entry = {};
 
 module.exports = function(config) {
@@ -15,7 +15,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      './test/**/*.ts'
+      './**/*.ts'
     ],
 
     mime: {

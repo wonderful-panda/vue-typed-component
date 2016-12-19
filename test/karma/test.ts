@@ -1,6 +1,6 @@
 import * as assert from "power-assert";
 import * as Vue from "vue";
-import * as tc from "../src/index";
+import * as tc from "../../src/index";
 
 function nextTick() {
     return new Promise((resolve, _) => Vue.nextTick(resolve));

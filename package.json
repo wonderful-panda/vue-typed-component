@@ -6,7 +6,7 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "karma start"
+    "test": "karma start test/karma/karma.conf.js"
   },
   "repository": {
     "type": "git",
