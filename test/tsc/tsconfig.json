@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "outDir": "dist",
+        "experimentalDecorators": true,
+        "target": "es5",
+        "lib": [
+            "dom",
+            "es2015"
+        ],
+        "noImplicitAny": false,
+        "sourceMap": false,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "strictNullChecks": true
+    },
+    "filesGlob": [
+        "*.ts"
+    ],
+    "exclude": [
+        "cases/*.ts"
+    ]
+}
