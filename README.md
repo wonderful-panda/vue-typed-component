@@ -1,6 +1,9 @@
 # vue-typesafe-component
 Make vue-class-component more typesafe
 
+## Requirement
+TypeScript >= 2.1
+
 ## Example
 
 ```typescript
