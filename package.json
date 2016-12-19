@@ -1,7 +1,7 @@
 {
-  "name": "vue-typesafe-component",
+  "name": "vue-typed-component",
   "version": "0.0.1",
-  "description": "vue-class-component wrapper to make components typesafe",
+  "description": "vue-class-component wrapper to make components more typesafe",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wonderful-panda/vue-typesafe-component"
+    "url": "git+https://github.com/wonderful-panda/vue-typed-component"
   },
   "keywords": [
     "vue",
