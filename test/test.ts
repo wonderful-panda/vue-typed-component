@@ -1,4 +1,3 @@
-///<reference types="mocha" />
 import * as assert from "power-assert";
 import * as Vue from "vue";
 import * as tc from "../src/index";
