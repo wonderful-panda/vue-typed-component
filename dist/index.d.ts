@@ -24,6 +24,7 @@ export declare abstract class VueStatefulComponent<Props, Events, Data> extends 
     abstract data(): Data;
 }
 export interface ComponentDecorator {
+    <Props>(options: ComponentOptions<VueComponent<Props, any>, Props>): (target: VueClass<VueComponent<Props, any>>) => VueClass<VueComponent<Props, any>>;
     <Props, V extends VueComponent<Props, any>>(options: ComponentOptions<V, Props>): (target: VueClass<V>) => VueClass<V>;
 }
 export declare const component: ComponentDecorator;
