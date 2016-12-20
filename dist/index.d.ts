@@ -7,24 +7,34 @@ export declare type PropsDefinition<Props> = {
     [K in keyof Props]: Vue.PropOptions | Constructor | Constructor[];
 };
 export declare type EventHandler<T> = ((arg: T) => any) | ((arg: T) => any)[];
+export declare type EventsObject<Events> = {
+    emit: <K extends keyof Events>(event: K, arg: Events[K]) => any;
+    on: <K extends keyof Events>(event: K, callback: (arg: Events[K]) => any) => any;
+    once: <K extends keyof Events>(event: K, callback: (arg: Events[K]) => any) => any;
+    off: <K extends keyof Events>(event: K, callback?: (arg: Events[K]) => any) => any;
+};
 export declare type ComponentOptions<V extends Vue, Props> = Vue.ComponentOptions<V> & {
     props: PropsDefinition<Props>;
 };
-export declare class VueComponent<Props, Events> extends Vue {
+export interface TypedComponentBase<Props> {
     $props: Props;
-    $events: {
-        emit: <K extends keyof Events>(event: K, arg: Events[K]) => any;
-        on: <K extends keyof Events>(event: K, callback: (arg: Events[K]) => any) => any;
-        once: <K extends keyof Events>(event: K, callback: (arg: Events[K]) => any) => any;
-        off: <K extends keyof Events>(event: K, callback?: (arg: Events[K]) => any) => any;
-    };
 }
-export declare abstract class VueStatefulComponent<Props, Events, Data> extends VueComponent<Props, Events> {
+export declare class TypedComponent<Props> extends Vue {
+    $props: Props;
+}
+export declare class EvTypedComponent<Props, Events> extends Vue {
+    $props: Props;
+    $events: EventsObject<Events>;
+}
+export declare abstract class StatefulTypedComponent<Props, Data> extends TypedComponent<Props> {
+    $data: Data;
+    abstract data(): Data;
+}
+export declare abstract class StatefulEvTypedComponent<Props, Events, Data> extends EvTypedComponent<Props, Events> {
     $data: Data;
     abstract data(): Data;
 }
 export interface ComponentDecorator {
-    <Props>(options: ComponentOptions<VueComponent<Props, any>, Props>): (target: VueClass<VueComponent<Props, any>>) => VueClass<VueComponent<Props, any>>;
-    <Props, V extends VueComponent<Props, any>>(options: ComponentOptions<V, Props>): (target: VueClass<V>) => VueClass<V>;
+    <P, V extends TypedComponentBase<P> & Vue>(options: ComponentOptions<V, P>): (target: VueClass<V>) => VueClass<V>;
 }
 export declare const component: ComponentDecorator;

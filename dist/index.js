@@ -15,14 +15,29 @@ var vue_class_component_1 = require("vue-class-component");
 /*
  * Base class for typesafe component
  */
-var VueComponent = (function (_super) {
-    __extends(VueComponent, _super);
-    function VueComponent() {
+var TypedComponent = (function (_super) {
+    __extends(TypedComponent, _super);
+    function TypedComponent() {
         return _super.apply(this, arguments) || this;
     }
-    return VueComponent;
+    return TypedComponent;
 }(Vue));
-VueComponent = __decorate([
+TypedComponent = __decorate([
+    vue_class_component_1.default({
+        beforeCreate: function () {
+            this.$props = this;
+        }
+    })
+], TypedComponent);
+exports.TypedComponent = TypedComponent;
+var EvTypedComponent = (function (_super) {
+    __extends(EvTypedComponent, _super);
+    function EvTypedComponent() {
+        return _super.apply(this, arguments) || this;
+    }
+    return EvTypedComponent;
+}(Vue));
+EvTypedComponent = __decorate([
     vue_class_component_1.default({
         beforeCreate: function () {
             this.$props = this;
@@ -34,19 +49,27 @@ VueComponent = __decorate([
             };
         }
     })
-], VueComponent);
-exports.VueComponent = VueComponent;
+], EvTypedComponent);
+exports.EvTypedComponent = EvTypedComponent;
 /*
  * Base class for typesafe component with $data
  */
-var VueStatefulComponent = (function (_super) {
-    __extends(VueStatefulComponent, _super);
-    function VueStatefulComponent() {
+var StatefulTypedComponent = (function (_super) {
+    __extends(StatefulTypedComponent, _super);
+    function StatefulTypedComponent() {
         return _super.apply(this, arguments) || this;
     }
-    return VueStatefulComponent;
-}(VueComponent));
-exports.VueStatefulComponent = VueStatefulComponent;
+    return StatefulTypedComponent;
+}(TypedComponent));
+exports.StatefulTypedComponent = StatefulTypedComponent;
+var StatefulEvTypedComponent = (function (_super) {
+    __extends(StatefulEvTypedComponent, _super);
+    function StatefulEvTypedComponent() {
+        return _super.apply(this, arguments) || this;
+    }
+    return StatefulEvTypedComponent;
+}(EvTypedComponent));
+exports.StatefulEvTypedComponent = StatefulEvTypedComponent;
 /*
  * decorator with typesafe interface
  */
