@@ -4,8 +4,8 @@ import { component, VueComponent } from "../../..";
 
 interface Props { foo: string };
 
-@component<Props, Component>({
+@component<Props>({
     props: { foo: {type: String}, bar: {} }
 })
-class Component extends VueComponent<Props, Component>{
+class Component extends VueComponent<Props, {}>{
 }
