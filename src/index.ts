@@ -79,3 +79,22 @@ export interface ComponentDecorator {
  */
 export const component: ComponentDecorator = component_;
 
+export interface RenderContext<Props> extends Vue.RenderContext {
+  props: Props;
+}
+
+export interface RenderFuncitonalComponent<Props> {
+    (this: never, h: Vue.CreateElement, context: RenderContext<Props>): Vue.VNode;
+}
+
+export function functionalComponent<Props>(
+                    name: string,
+                    props: PropsDefinition<Props>,
+                    render: RenderFuncitonalComponent<Props>): VueClass<Vue> {
+    return Vue.extend({
+        functional: true,
+        name,
+        props: props as any,
+        render
+    });
+}

@@ -105,4 +105,30 @@ describe("vue-typesafe-component", function() {
             assert.deepEqual(values, ["on:1", "once:1", "on:2"]);
         });
     });
+    describe("functional component", function() {
+        it("basic functionary", function() {
+            interface Props {
+                foo: string;
+                bar: number;
+            };
+            const render: tc.RenderFuncitonalComponent<Props> = (h, context) => {
+                return h("div");
+            };
+            const Test = tc.functionalComponent<Props>(
+                "test",
+                {
+                    foo: { type: String, required: true },
+                    bar: { type: Number, default: 1 }
+                },
+                (h, { props }) => {
+                    return h("span", [ props.foo + props.bar.toString() ]);
+                }
+            );
+            const vm = new Vue({
+                components: { Test },
+                template: `<test foo="value"></test>`,
+            }).$mount();
+            assert(vm.$el.innerHTML === "value1");
+        });
+    });
 });
