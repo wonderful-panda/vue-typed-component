@@ -7,7 +7,7 @@ TypeScript >= 2.1
 ## Example
 
 ```typescript
-import { component, VueComponent } from 'vue-typesafe-component'
+import * as tc from "vue-typed-component"
 
 interface ToDoProps {
     title: string;
@@ -18,7 +18,7 @@ interface ToDoEvents {
     stateChanged: boolean
 }
 
-@component<ToDoProps, ToDo>({
+@tc.component<ToDoProps, ToDo>({
     // each prop names are checked by compiler
     props: {
         title: { type: String, required: true },
@@ -30,7 +30,9 @@ interface ToDoEvents {
         </div>
     `
 })
-class ToDo extends VueComponent<ToDoProps, ToDoEvents> {
+class ToDo extends tc.EvTypedComponent<ToDoProps, ToDoEvents> {
+    // If events are not needed,
+    // use TypedComponent<Props> instead
     get style() {
         // Access each props via `$props`
         if (this.$props.done) {
@@ -53,21 +55,17 @@ class ToDo extends VueComponent<ToDoProps, ToDoEvents> {
 If you want to define component with `$data`, use `VueStatefulComponent` instead.
 
 ```typescript
-import { component, VueStatefulComponent } from 'vue-typesafe-component'
+import * as tc from "vue-typed-component"
 
 interface ToDoProps {
     title: string;
-}
-
-interface ToDoEvents {
-    // no events
 }
 
 interface ToDoData {
     done: boolean;
 }
 
-@component<ToDoProps, ToDo>({
+@tc.component<ToDoProps, ToDo>({
     // each prop names are checked by compiler
     props: {
         title: { type: String, required: true }
@@ -78,8 +76,11 @@ interface ToDoData {
         </div>
     `
 })
-class ToDo extends VueStatefulComponent<ToDoProps, ToDoEvents, ToDoData> {
-    // `data()` method existance and return type of it are checked by compiler
+class ToDo extends tc.StatefulTypedComponent<ToDoProps, ToDoData> {
+    // If events are needed,
+    // use StatefulEvTypedComponent<Props, Events, Data> instead
+
+    // data() method existance and return type of it are checked by compiler
     data() {
         return { done: false };
     }
@@ -90,7 +91,7 @@ class ToDo extends VueStatefulComponent<ToDoProps, ToDoEvents, ToDoData> {
             return { textDecoration: "line-through" };
         }
         else {
-            return {}
+            return {};
         }
     }
 
@@ -98,4 +99,26 @@ class ToDo extends VueStatefulComponent<ToDoProps, ToDoEvents, ToDoData> {
         this.$data.done = !this.$data.done;
     }
 }
+```
+
+Helper function to define functional component is also in.
+
+```typescript
+import * as tc from "vue-typed-component"
+
+interface ToDoProps {
+    id: string;
+    title: string;
+}
+
+const ToDo = tc.functionalComponent<ToDoProps>(
+    "ToDo",
+    {
+        id: { type: String, required: true },
+        title: { type: String, required: true }
+    },
+    (h, { props }) => {
+        return h("span", { attrs: { id: props.id } }, [ props.title ]);
+    }
+);
 ```
