@@ -12,9 +12,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 var Vue = require("vue");
 var vue_class_component_1 = require("vue-class-component");
-/*
- * Base class for typesafe component
- */
+// for component which has props
 var TypedComponent = (function (_super) {
     __extends(TypedComponent, _super);
     function TypedComponent() {
@@ -30,6 +28,7 @@ TypedComponent = __decorate([
     })
 ], TypedComponent);
 exports.TypedComponent = TypedComponent;
+// for component which has props and events
 var EvTypedComponent = (function (_super) {
     __extends(EvTypedComponent, _super);
     function EvTypedComponent() {
@@ -51,9 +50,7 @@ EvTypedComponent = __decorate([
     })
 ], EvTypedComponent);
 exports.EvTypedComponent = EvTypedComponent;
-/*
- * Base class for typesafe component with $data
- */
+// for component which has props and data
 var StatefulTypedComponent = (function (_super) {
     __extends(StatefulTypedComponent, _super);
     function StatefulTypedComponent() {
@@ -62,6 +59,7 @@ var StatefulTypedComponent = (function (_super) {
     return StatefulTypedComponent;
 }(TypedComponent));
 exports.StatefulTypedComponent = StatefulTypedComponent;
+// for component which has props, events and data
 var StatefulEvTypedComponent = (function (_super) {
     __extends(StatefulEvTypedComponent, _super);
     function StatefulEvTypedComponent() {
@@ -70,7 +68,16 @@ var StatefulEvTypedComponent = (function (_super) {
     return StatefulEvTypedComponent;
 }(EvTypedComponent));
 exports.StatefulEvTypedComponent = StatefulEvTypedComponent;
-/*
- * decorator with typesafe interface
- */
 exports.component = vue_class_component_1.default;
+/*
+ * Typesafe helper to define functional component
+ */
+function functionalComponent(name, props, render) {
+    return Vue.extend({
+        functional: true,
+        name: name,
+        props: props,
+        render: render
+    });
+}
+exports.functionalComponent = functionalComponent;
