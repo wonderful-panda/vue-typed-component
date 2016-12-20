@@ -7,7 +7,7 @@ function nextTick() {
 }
 
 describe("vue-typesafe-component", function() {
-    describe("props handling of VueComponent", function() {
+    describe("TypedComponent", function() {
         it("basic functionary (props just work)", function() {
             interface Props { foo: string, bar: number };
             @tc.component<Props, Test>({
@@ -43,7 +43,7 @@ describe("vue-typesafe-component", function() {
             assert(vm.$el.innerHTML === "test");
         });
     });
-    describe("events handling of VueComponent", function() {
+    describe("EvTypedComponent", function() {
         interface Props { foo: string };
         interface Events { change: string };
         @tc.component<Props, Test>({
