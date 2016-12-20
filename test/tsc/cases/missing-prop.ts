@@ -1,11 +1,11 @@
 //// Property 'bar' is missing in type '{ foo: StringConstructor; }'.
 
-import { component, VueComponent } from "../../..";
+import * as tc from "../../..";
 
 interface Props { foo: string, bar: string };
 
-@component<Props>({
+@tc.component<Props, Component>({
     props: { foo: String }
 })
-class Component extends VueComponent<Props, {}>{
+class Component extends tc.TypedComponent<Props>{
 }

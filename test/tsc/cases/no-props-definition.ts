@@ -1,9 +1,9 @@
 //// Property 'props' is missing in type '{}'.
 
-import { component, VueComponent } from "../../..";
+import * as tc from "../../..";
 
 interface Props { foo: string };
 
-@component<Props>({})
-class Component extends VueComponent<Props, {}>{
+@tc.component<Props, Component>({})
+class Component extends tc.TypedComponent<Props>{
 }

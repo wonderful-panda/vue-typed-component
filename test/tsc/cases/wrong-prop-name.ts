@@ -1,11 +1,11 @@
 //// Property 'foo' is missing in type '{ fooo: {}; }'.
 
-import { component, VueComponent } from "../../..";
+import * as tc from "../../..";
 
 interface Props { foo: string };
 
-@component<Props>({
+@tc.component<Props, Component>({
     props: { fooo: {} }
 })
-class Component extends VueComponent<Props, {}>{
+class Component extends tc.TypedComponent<Props> {
 }

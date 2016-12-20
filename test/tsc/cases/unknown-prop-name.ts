@@ -1,11 +1,11 @@
 // this code does not cause no error now
 
-import { component, VueComponent } from "../../..";
+import * as tc from "../../..";
 
 interface Props { foo: string };
 
-@component<Props>({
+@tc.component<Props, Component>({
     props: { foo: {type: String}, bar: {} }
 })
-class Component extends VueComponent<Props, {}>{
+class Component extends tc.TypedComponent<Props> {
 }

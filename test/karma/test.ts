@@ -10,14 +10,14 @@ describe("vue-typesafe-component", function() {
     describe("props handling of VueComponent", function() {
         it("basic functionary (props just work)", function() {
             interface Props { foo: string, bar: number };
-            @tc.component<Props>({
+            @tc.component<Props, Test>({
                 template: `<span>{{ foo }} {{ bar }}</span>`,
                 props: {
                     foo: String,
                     bar: { type: Number, default: 1 }
                 }
             })
-            class Test extends tc.VueComponent<Props, {}> {}
+            class Test extends tc.TypedComponent<Props> {}
 
             const vm = new Vue({
                 components: { Test },
@@ -28,13 +28,13 @@ describe("vue-typesafe-component", function() {
         });
         it("use $props in template", function() {
             interface Props { foo: string };
-            @tc.component<Props>({
+            @tc.component<Props, Test>({
                 template: `<span>{{ $props.foo }}</span>`,
                 props: {
                     foo: String
                 }
             })
-            class Test extends tc.VueComponent<Props, {}> {}
+            class Test extends tc.TypedComponent<Props>{}
 
             const vm = new Vue({
                 components: { Test },
@@ -46,11 +46,11 @@ describe("vue-typesafe-component", function() {
     describe("events handling of VueComponent", function() {
         interface Props { foo: string };
         interface Events { change: string };
-        @tc.component<Props>({
+        @tc.component<Props, Test>({
             template: `<span>{{ foo }}</span>`,
             props: { foo: String }
         })
-        class Test extends tc.VueComponent<Props, Events> {
+        class Test extends tc.EvTypedComponent<Props, Events> {
         }
 
         it("basic functionary (emit just works)", async function() {

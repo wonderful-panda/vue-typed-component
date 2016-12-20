@@ -12,6 +12,13 @@ export type PropsDefinition<Props> = {
 };
 export type EventHandler<T> = ((arg: T) => any) | ((arg: T) => any)[];
 
+export type EventsObject<Events> = {
+    emit: <K extends keyof Events>(event: K, arg: Events[K]) => any;
+    on: <K extends keyof Events>(event: K, callback: (arg: Events[K]) => any) => any;
+    once: <K extends keyof Events>(event: K, callback: (arg: Events[K]) => any) => any;
+    off: <K extends keyof Events>(event: K, callback?: (arg: Events[K]) => any) => any;
+}
+
 /*
  * Wrapped type of Vue.ComponentOptions which makes `props` typesafe
  */
@@ -19,10 +26,23 @@ export type ComponentOptions<V extends Vue, Props> = Vue.ComponentOptions<V> & {
     props: PropsDefinition<Props>
 }
 
+export interface TypedComponentBase<Props> {
+    $props: Props;
+}
+
 /*
  * Base class for typesafe component
  */
-@component_<VueComponent<any, any>>({
+@component_<TypedComponent<any>>({
+    beforeCreate() {
+        this.$props = this;
+    }
+})
+export class TypedComponent<Props> extends Vue {
+    $props: Props;
+}
+
+@component_<EvTypedComponent<any, any>>({
     beforeCreate() {
         this.$props = this;
         this.$events = {
@@ -33,28 +53,25 @@ export type ComponentOptions<V extends Vue, Props> = Vue.ComponentOptions<V> & {
         };
     }
 })
-export class VueComponent<Props, Events> extends Vue {
+export class EvTypedComponent<Props, Events> extends Vue {
     $props: Props;
-    $events: {
-        emit: <K extends keyof Events>(event: K, arg: Events[K]) => any;
-        on: <K extends keyof Events>(event: K, callback: (arg: Events[K]) => any) => any;
-        once: <K extends keyof Events>(event: K, callback: (arg: Events[K]) => any) => any;
-        off: <K extends keyof Events>(event: K, callback?: (arg: Events[K]) => any) => any;
-    };
+    $events: EventsObject<Events>;
 }
-
 
 /*
  * Base class for typesafe component with $data
  */
-export abstract class VueStatefulComponent<Props, Events, Data> extends VueComponent<Props, Events> {
+export abstract class StatefulTypedComponent<Props, Data> extends TypedComponent<Props> {
+    $data: Data;
+    abstract data(): Data;
+}
+export abstract class StatefulEvTypedComponent<Props, Events, Data> extends EvTypedComponent<Props, Events> {
     $data: Data;
     abstract data(): Data;
 }
 
 export interface ComponentDecorator {
-    <Props>(options: ComponentOptions<VueComponent<Props, any>, Props>): (target: VueClass<VueComponent<Props, any>>) => VueClass<VueComponent<Props, any>>;
-    <Props, V extends VueComponent<Props, any>>(options: ComponentOptions<V, Props>): (target: VueClass<V>) => VueClass<V>;
+    <P, V extends TypedComponentBase<P> & Vue>(options: ComponentOptions<V, P>): (target: VueClass<V>) => VueClass<V>;
 }
 
 /*
