@@ -5,6 +5,8 @@ import * as glob from "glob";
 import * as assert from "power-assert";
 
 function getExpectedErrors(file: string): string[] {
+    // Get lines beginning from "////" as expected errors.
+    // Check last line only of each errors.
     const lines = fs.readFileSync(file).toString().replace(/\r\n/g, "\n").split("\n");
     return lines.filter(l => l.startsWith("////")).map(l => l.substring(4).trim()).filter(l => l.length > 0);
 }

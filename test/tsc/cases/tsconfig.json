@@ -3,6 +3,7 @@
         "module": "commonjs",
         "moduleResolution": "node",
         "outDir": "dist",
+        "experimentalDecorators": true,
         "target": "es5",
         "lib": [
             "dom",
@@ -16,8 +17,5 @@
     },
     "filesGlob": [
         "*.ts"
-    ],
-    "exclude": [
-        "cases/*.ts"
     ]
 }
