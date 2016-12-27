@@ -1,10 +1,8 @@
 import * as Vue from "vue";
-export declare type Constructor = {
-    new (...args: any[]): any;
-};
+import { PropType } from "./types";
 export declare type VueClass<V> = (new () => V) & typeof Vue;
 export declare type PropsDefinition<Props> = {
-    [K in keyof Props]: Vue.PropOptions | Constructor | Constructor[];
+    [K in keyof Props]: Vue.PropOptions | PropType;
 };
 export declare type EventsObject<Events> = {
     emit: <K extends keyof Events>(event: K, arg: Events[K]) => any;

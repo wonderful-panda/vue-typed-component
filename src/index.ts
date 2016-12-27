@@ -1,12 +1,11 @@
 import * as Vue from "vue";
 import component_ from "vue-class-component";
+import { PropType } from "./types";
+import * as po from "./propOptions";
 
 /*
  * copy from d.ts of vue-class-component
  */
-export type Constructor = {
-    new (...args: any[]): any;
-}
 export type VueClass<V> = (new () => V) & typeof Vue;
 
 
@@ -14,7 +13,7 @@ export type VueClass<V> = (new () => V) & typeof Vue;
  * Mapped types
  */
 export type PropsDefinition<Props> = {
-    [K in keyof Props]: Vue.PropOptions | Constructor | Constructor[]
+    [K in keyof Props]: Vue.PropOptions | PropType
 };
 
 export type EventsObject<Events> = {
@@ -110,4 +109,15 @@ export function functionalComponent<Props>(
         props: props as any,
         render
     });
+}
+
+export namespace PropOptions {
+    export const Str = po.Str;
+    export const Num = po.Num;
+    export const Bool = po.Bool;
+    export const Func = po.Func;
+    export const Obj = po.Obj;
+    export const Arr = po.Arr;
+    export const Any = po.Any;
+    export const ofType = po.ofType;
 }
