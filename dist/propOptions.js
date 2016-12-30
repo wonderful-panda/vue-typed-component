@@ -9,42 +9,47 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 };
 function createPropOptionBuilder(type, createValidators) {
     function createPartial(base) {
-        return __assign({ Validator: function (validator) { return (__assign({}, base, { validator: validator })); }, Validators: createValidators(base) }, base);
+        return Object.assign({
+            Validator: function (validator) { return (__assign({}, base, { validator: validator })); }
+        }, base, createValidators(base));
     }
-    return __assign({}, createPartial({ type: type }), { Required: createPartial({ type: type, required: true }), Default: function (value) { return createPartial({ type: type, default: value }); } });
+    return Object.assign({
+        Required: createPartial({ type: type, required: true }),
+        Default: function (value) { return createPartial({ type: type, default: value }); }
+    }, createPartial({ type: type }));
 }
 exports.Str = createPropOptionBuilder(String, function (base) {
     var $ = function (validator) { return (__assign({}, base, { validator: validator })); };
     return {
-        in: function () {
+        $in: function () {
             var values = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 values[_i] = arguments[_i];
             }
             return $(function (v) { return values.indexOf(v) >= 0; });
         },
-        match: function (pattern) { return $(function (v) { return pattern.test(v); }); }
+        $match: function (pattern) { return $(function (v) { return pattern.test(v); }); }
     };
 });
 exports.Num = createPropOptionBuilder(Number, function (base) {
     var $ = function (validator) { return (__assign({}, base, { validator: validator })); };
     return {
-        lessThan: function (max) { return $(function (v) { return v < max; }); },
-        greaterThan: function (min) { return $(function (v) { return min < v; }); },
-        lessEqual: function (max) { return $(function (v) { return v <= max; }); },
-        greaterEqual: function (min) { return $(function (v) { return min <= v; }); },
-        between: function (min, max) { return $(function (v) { return min <= v && v <= max; }); },
-        nonZero: function () { return $(function (v) { return v !== 0; }); },
-        positive: function () { return $(function (v) { return v > 0; }); },
-        nonNegative: function () { return $(function (v) { return v >= 0; }); },
+        $lessThan: function (max) { return $(function (v) { return v < max; }); },
+        $greaterThan: function (min) { return $(function (v) { return min < v; }); },
+        $lessEqual: function (max) { return $(function (v) { return v <= max; }); },
+        $greaterEqual: function (min) { return $(function (v) { return min <= v; }); },
+        $between: function (min, max) { return $(function (v) { return min <= v && v <= max; }); },
+        $nonZero: function () { return $(function (v) { return v !== 0; }); },
+        $positive: function () { return $(function (v) { return v > 0; }); },
+        $nonNegative: function () { return $(function (v) { return v >= 0; }); },
     };
 });
 exports.Arr = createPropOptionBuilder(Array, function (base) {
     var $ = function (validator) { return (__assign({}, base, { validator: validator })); };
     return {
-        maxLength: function (max) { return $(function (v) { return v.length <= max; }); },
-        notEmpty: function () { return $(function (v) { return v.length > 0; }); },
-        all: function (test) { return $(function (v) {
+        $maxLength: function (max) { return $(function (v) { return v.length <= max; }); },
+        $notEmpty: function () { return $(function (v) { return v.length > 0; }); },
+        $all: function (test) { return $(function (v) {
             for (var i = 0; i < v.length; ++i) {
                 if (!test(v[i])) {
                     return false;
