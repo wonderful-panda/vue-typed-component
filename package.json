@@ -1,6 +1,6 @@
 {
   "name": "vue-typed-component",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "vue-class-component wrapper to make components more typesafe",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
