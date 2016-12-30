@@ -21,7 +21,7 @@ export type EventsObject<Events> = {
     on: <K extends keyof Events>(event: K, callback: (arg: Events[K]) => any) => any;
     once: <K extends keyof Events>(event: K, callback: (arg: Events[K]) => any) => any;
     off: <K extends keyof Events>(event: K, callback?: (arg: Events[K]) => any) => any;
-}
+};
 
 
 /*
@@ -29,7 +29,7 @@ export type EventsObject<Events> = {
  */
 export type ComponentOptions<V extends Vue, Props> = Vue.ComponentOptions<V> & {
     props: PropsDefinition<Props>
-}
+};
 
 export interface RenderContext<Props> extends Vue.RenderContext {
   props: Props;

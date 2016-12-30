@@ -1,7 +1,7 @@
 import * as Vue from "vue";
 import { PropType } from "./types";
 
-export type Supplier<T> = () => T
+export type Supplier<T> = () => T;
 export type Default<T> = T | Supplier<T>;
 export type Validator<T> = (value: T) => boolean;
 
@@ -26,7 +26,7 @@ function createPropOptionBuilder<T, TDefault, V>(type: PropType, createValidator
     return {
         ...createPartial({ type }),
         Required: createPartial({ type, required: true }),
-        Default(value: TDefault) { return createPartial({ type, default: value }) }
+        Default(value: TDefault) { return createPartial({ type, default: value }); }
     };
 }
 

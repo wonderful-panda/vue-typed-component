@@ -16,7 +16,7 @@ function assertConsoleError<TRet>(func: () => TRet, ...expectedMessages: RegExp[
             else {
                 assert(expected.test(msg));
             }
-        }
+        };
         const ret = func();
         assert(expectedMessages.length === 0);
         return ret;
@@ -33,7 +33,10 @@ function nextTick() {
 describe("vue-typesafe-component", function() {
     describe("TypedComponent", function() {
         it("basic functionary (props just work)", function() {
-            interface Props { foo: string, bar: number };
+            interface Props {
+                foo: string;
+                bar: number;
+            }
             @tc.component<Props, Test>({
                 template: `<span>{{ foo }} {{ bar }}</span>`,
                 props: {
@@ -51,14 +54,16 @@ describe("vue-typesafe-component", function() {
             assert(vm.$el.innerHTML === "test 1");
         });
         it("use $props in template", function() {
-            interface Props { foo: string };
+            interface Props {
+                foo: string;
+            }
             @tc.component<Props, Test>({
                 template: `<span>{{ $props.foo }}</span>`,
                 props: {
                     foo: String
                 }
             })
-            class Test extends tc.TypedComponent<Props>{}
+            class Test extends tc.TypedComponent<Props> {}
 
             const vm = new Vue({
                 components: { Test },
@@ -68,8 +73,12 @@ describe("vue-typesafe-component", function() {
         });
     });
     describe("EvTypedComponent", function() {
-        interface Props { foo: string };
-        interface Events { change: string };
+        interface Props {
+            foo: string;
+        }
+        interface Events {
+            change: string;
+        }
         @tc.component<Props, Test>({
             template: `<span>{{ foo }}</span>`,
             props: { foo: String }
@@ -176,7 +185,7 @@ describe("vue-typesafe-component", function() {
                 return assertConsoleError(() => {
                     return new Vue(opt).$mount();
                 }, ...messages);
-            }
+            };
         }
         describe("Str", function() {
             const t = tester(p.Str);
@@ -364,7 +373,7 @@ describe("vue-typesafe-component", function() {
                         foo() { return new Bar(0); }
                     }
                 }, /^\[Vue warn\]: Invalid prop.* Expected Foo/);
-            })
+            });
         });
 
     });

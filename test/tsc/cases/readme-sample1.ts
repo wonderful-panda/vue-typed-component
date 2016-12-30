@@ -8,7 +8,7 @@ interface ToDoProps {
 }
 
 interface ToDoEvents {
-    stateChanged: boolean
+    stateChanged: boolean;
 }
 
 @tc.component<ToDoProps, ToDo>({
@@ -32,7 +32,7 @@ class ToDo extends tc.EvTypedComponent<ToDoProps, ToDoEvents> {
             return { textDecoration: "line-through" };
         }
         else {
-            return {}
+            return {};
         }
     }
 

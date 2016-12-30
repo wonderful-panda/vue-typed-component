@@ -2,10 +2,13 @@
 
 import * as tc from "../../..";
 
-interface Props { foo: string, bar: string };
+interface Props {
+    foo: string;
+    bar: string;
+}
 
 @tc.component<Props, Component>({
     props: { foo: String }
 })
-class Component extends tc.TypedComponent<Props>{
+class Component extends tc.TypedComponent<Props> {
 }

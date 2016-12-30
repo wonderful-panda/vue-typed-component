@@ -2,7 +2,9 @@
 
 import * as tc from "../../..";
 
-interface Props { foo: string };
+interface Props {
+    foo: string;
+}
 
 @tc.component<Props, Component>({
     props: { foo: {type: String}, bar: {} }

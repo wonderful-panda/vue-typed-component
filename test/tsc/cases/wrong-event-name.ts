@@ -4,7 +4,9 @@
 
 import * as tc from "../../..";
 
-interface Events { event1: string };
+interface Events {
+    event1: string;
+}
 
 @tc.component<{}, Component>({
     props: {},
@@ -13,7 +15,7 @@ interface Events { event1: string };
         this.$events.once("event3", this.onEvent);
     }
 })
-class Component extends tc.EvTypedComponent<{}, Events>{
+class Component extends tc.EvTypedComponent<{}, Events> {
     greet() {
         this.$events.emit("event4", "value");
     }
