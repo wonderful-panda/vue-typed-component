@@ -23,6 +23,8 @@ export interface NumberValidators {
     greaterEqual(min: number): Vue.PropOptions;
     between(min: number, max: number): Vue.PropOptions;
     nonZero(): Vue.PropOptions;
+    positive(): Vue.PropOptions;
+    nonNegative(): Vue.PropOptions;
 }
 export declare const Num: PropOptionBuilder<number, Default<number>, NumberValidators>;
 export interface ArrayValidators {

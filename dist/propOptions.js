@@ -34,7 +34,9 @@ exports.Num = createPropOptionBuilder(Number, function (base) {
         lessEqual: function (max) { return $(function (v) { return v <= max; }); },
         greaterEqual: function (min) { return $(function (v) { return min <= v; }); },
         between: function (min, max) { return $(function (v) { return min <= v && v <= max; }); },
-        nonZero: function () { return $(function (v) { return v !== 0; }); }
+        nonZero: function () { return $(function (v) { return v !== 0; }); },
+        positive: function () { return $(function (v) { return v > 0; }); },
+        nonNegative: function () { return $(function (v) { return v >= 0; }); },
     };
 });
 exports.Arr = createPropOptionBuilder(Array, function (base) {
