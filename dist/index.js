@@ -12,6 +12,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 var Vue = require("vue");
 var vue_class_component_1 = require("vue-class-component");
+var po = require("./propOptions");
 // for component which has props
 var TypedComponent = (function (_super) {
     __extends(TypedComponent, _super);
@@ -81,3 +82,14 @@ function functionalComponent(name, props, render) {
     });
 }
 exports.functionalComponent = functionalComponent;
+var PropOptions;
+(function (PropOptions) {
+    PropOptions.Str = po.Str;
+    PropOptions.Num = po.Num;
+    PropOptions.Bool = po.Bool;
+    PropOptions.Func = po.Func;
+    PropOptions.Obj = po.Obj;
+    PropOptions.Arr = po.Arr;
+    PropOptions.Any = po.Any;
+    PropOptions.ofType = po.ofType;
+})(PropOptions = exports.PropOptions || (exports.PropOptions = {}));

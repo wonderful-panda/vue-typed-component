@@ -1,5 +1,6 @@
 import * as Vue from "vue";
 import { PropType } from "./types";
+import * as po from "./propOptions";
 export declare type VueClass<V> = (new () => V) & typeof Vue;
 export declare type PropsDefinition<Props> = {
     [K in keyof Props]: Vue.PropOptions | PropType;
@@ -42,3 +43,13 @@ export interface ComponentDecorator {
 }
 export declare const component: ComponentDecorator;
 export declare function functionalComponent<Props>(name: string, props: PropsDefinition<Props>, render: RenderFuncitonalComponent<Props>): VueClass<Vue>;
+export declare namespace PropOptions {
+    const Str: po.PropOptionBuilder<string, po.Default<string>, po.StringValidators>;
+    const Num: po.PropOptionBuilder<number, po.Default<number>, po.NumberValidators>;
+    const Bool: po.PropOptionBuilder<boolean, po.Default<boolean>, undefined>;
+    const Func: po.PropOptionBuilder<(...args: any[]) => any, po.Supplier<(...args: any[]) => any>, undefined>;
+    const Obj: po.PropOptionBuilder<{}, po.Supplier<{}>, undefined>;
+    const Arr: po.PropOptionBuilder<any[], po.Supplier<any[]>, po.ArrayValidators>;
+    const Any: po.PropOptionBuilder<null, any, undefined>;
+    const ofType: typeof po.ofType;
+}
