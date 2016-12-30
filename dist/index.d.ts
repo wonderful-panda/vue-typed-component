@@ -20,9 +20,9 @@ export interface RenderContext<Props> extends Vue.RenderContext {
 export interface RenderFuncitonalComponent<Props> {
     (this: never, h: Vue.CreateElement, context: RenderContext<Props>): Vue.VNode;
 }
-export interface TypedComponentBase<Props> {
+export declare type TypedComponentBase<Props> = {
     $props: Props;
-}
+} & Vue;
 export declare class TypedComponent<Props> extends Vue {
     $props: Props;
 }
@@ -39,7 +39,8 @@ export declare abstract class StatefulEvTypedComponent<Props, Events, Data> exte
     abstract data(): Data;
 }
 export interface ComponentDecorator {
-    <P, V extends TypedComponentBase<P> & Vue>(options: ComponentOptions<V, P>): (target: VueClass<V>) => VueClass<V>;
+    <P, V extends TypedComponentBase<P>>(options: ComponentOptions<V, P>): (target: VueClass<V>) => VueClass<V>;
+    <P>(options: ComponentOptions<TypedComponentBase<P>, P>): <V extends TypedComponentBase<P>>(target: VueClass<V>) => VueClass<V>;
 }
 export declare const component: ComponentDecorator;
 export declare function functionalComponent<Props>(name: string, props: PropsDefinition<Props>, render: RenderFuncitonalComponent<Props>): VueClass<Vue>;
