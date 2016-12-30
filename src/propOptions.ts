@@ -50,6 +50,8 @@ export interface NumberValidators {
     greaterEqual(min: number): Vue.PropOptions;
     between(min: number, max: number): Vue.PropOptions;
     nonZero(): Vue.PropOptions;
+    positive(): Vue.PropOptions;
+    nonNegative(): Vue.PropOptions;
 }
 
 export const Num = createPropOptionBuilder<number, Default<number>, NumberValidators>(Number, base => {
@@ -61,7 +63,9 @@ export const Num = createPropOptionBuilder<number, Default<number>, NumberValida
         lessEqual: (max) => $(v => v <= max),
         greaterEqual: (min) => $(v => min <= v),
         between: (min, max) => $(v => min <= v && v <= max),
-        nonZero: () => $(v => v !== 0)
+        nonZero: () => $(v => v !== 0),
+        positive: () => $(v => v > 0),
+        nonNegative: () => $(v => v >= 0),
     };
 });
 
