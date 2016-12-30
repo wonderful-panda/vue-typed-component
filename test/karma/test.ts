@@ -195,7 +195,7 @@ describe("vue-typesafe-component", function() {
             });
             it("Unexpected type", function() {
                 t(`<test :foo="1"></test>`,
-                       /^\[Vue warn\]: Invalid prop.* Expected String/);
+                  /^\[Vue warn\]: Invalid prop.* Expected String/);
             });
             it("prop is optional", function() {
                 t(`<test></test>`);
@@ -230,56 +230,56 @@ describe("vue-typesafe-component", function() {
                 t(`<test foo="A"></test>`, validationError);
             });
             it ("validator: in", function() {
-                const t = tester(p.Str.Validators.in("a", "b"));
+                const t = tester(p.Str.$in("a", "b"));
                 t(`<test foo="a"></test>`);
                 t(`<test foo="b"></test>`);
                 t(`<test foo="c"></test>`, validationError);
             });
             it ("validator: match", function() {
-                const t = tester(p.Str.Validators.match(/^[0-9]+$/));
+                const t = tester(p.Str.$match(/^[0-9]+$/));
                 t(`<test foo="123"></test>`);
                 t(`<test foo="10a"></test>`, validationError);
             });
             it ("validator with Required", function() {
-                const t = tester(p.Str.Required.Validators.match(/^A/));
+                const t = tester(p.Str.Required.$match(/^A/));
                 t(`<test foo="a"></test>`, validationError);
             });
             it ("validator with Default", function() {
-                const t = tester(p.Str.Default("a").Validators.match(/^A/));
+                const t = tester(p.Str.Default("a").$match(/^A/));
                 t(`<test></test>`, validationError);
             });
         });
         describe("Num.Validator", function() {
             const validationError = /^\[Vue warn\]: Invalid prop.* custom validator/;
             it ("validator: greaterThan", function() {
-                const t = tester(p.Num.Validators.greaterThan(1));
+                const t = tester(p.Num.$greaterThan(1));
                 t(`<test :foo="1.1"></test>`);
                 t(`<test :foo="1"></test>`, validationError);
             });
             it ("validator: lessThan", function() {
-                const t = tester(p.Num.Validators.lessThan(1));
+                const t = tester(p.Num.$lessThan(1));
                 t(`<test :foo="0.9"></test>`);
                 t(`<test :foo="1"></test>`, validationError);
             });
             it ("validator: greaterEqual", function() {
-                const t = tester(p.Num.Validators.greaterEqual(1));
+                const t = tester(p.Num.$greaterEqual(1));
                 t(`<test :foo="1"></test>`);
                 t(`<test :foo="0.9"></test>`, validationError);
             });
             it ("validator: lessEqual", function() {
-                const t = tester(p.Num.Validators.lessEqual(1));
+                const t = tester(p.Num.$lessEqual(1));
                 t(`<test :foo="1"></test>`);
                 t(`<test :foo="1.1"></test>`, validationError);
             });
             it ("validator: between", function() {
-                const t = tester(p.Num.Validators.between(1, 2));
+                const t = tester(p.Num.$between(1, 2));
                 t(`<test :foo="1"></test>`);
                 t(`<test :foo="2"></test>`);
                 t(`<test :foo="0.9"></test>`, validationError);
                 t(`<test :foo="2.1"></test>`, validationError);
             });
             it ("validator: nonZero", function() {
-                const t = tester(p.Num.Validators.nonZero());
+                const t = tester(p.Num.$nonZero());
                 t(`<test :foo="1"></test>`);
                 t(`<test :foo="0"></test>`, validationError);
             });
@@ -287,17 +287,17 @@ describe("vue-typesafe-component", function() {
         describe("Arr.Validator", function() {
             const validationError = /^\[Vue warn\]: Invalid prop.* custom validator/;
             it ("validator: notEmpty", function() {
-                const t = tester(p.Arr.Validators.notEmpty());
+                const t = tester(p.Arr.$notEmpty());
                 t(`<test :foo="[1]"></test>`);
                 t(`<test :foo="[]"></test>`, validationError);
             });
             it ("validator: maxLength", function() {
-                const t = tester(p.Arr.Validators.maxLength(2));
+                const t = tester(p.Arr.$maxLength(2));
                 t(`<test :foo="[1, 2]"></test>`);
                 t(`<test :foo="[1, 2, 3]"></test>`, validationError);
             });
             it ("validator: all", function() {
-                const t = tester(p.Arr.Validators.all(v => v > 1));
+                const t = tester(p.Arr.$all(v => v > 1));
                 t(`<test :foo="[2, 3, 4]"></test>`);
                 t(`<test :foo="[]"></test>`);
                 t(`<test :foo="[3, 2, 1]"></test>`, validationError);
