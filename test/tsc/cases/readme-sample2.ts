@@ -10,7 +10,7 @@ interface ToDoData {
     done: boolean;
 }
 
-@tc.component<ToDoProps, ToDo>({
+@tc.component<ToDoProps>({
     // each prop names are checked by compiler
     props: {
         title: { type: String, required: true }

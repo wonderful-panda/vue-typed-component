@@ -9,7 +9,7 @@ interface Data {
     bar: string;
 }
 
-@tc.component<Props, Component>({
+@tc.component<Props>({
     props: { foo: String }
 })
 class Component extends tc.StatefulTypedComponent<Props, Data> {

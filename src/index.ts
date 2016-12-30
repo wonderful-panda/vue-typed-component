@@ -43,9 +43,7 @@ export interface RenderFuncitonalComponent<Props> {
 /*
  * Base classes of typesafe Component
  */
-export interface TypedComponentBase<Props> {
-    $props: Props;
-}
+export type TypedComponentBase<Props> = { $props: Props } & Vue;
 
 // for component which has props
 @component_<TypedComponent<any>>({
@@ -91,7 +89,8 @@ export abstract class StatefulEvTypedComponent<Props, Events, Data> extends EvTy
  * Typesafe definition of decorator
  */
 export interface ComponentDecorator {
-    <P, V extends TypedComponentBase<P> & Vue>(options: ComponentOptions<V, P>): (target: VueClass<V>) => VueClass<V>;
+    <P, V extends TypedComponentBase<P>>(options: ComponentOptions<V, P>): (target: VueClass<V>) => VueClass<V>;
+    <P>(options: ComponentOptions<TypedComponentBase<P>, P>): <V extends TypedComponentBase<P>>(target: VueClass<V>) => VueClass<V>;
 }
 export const component: ComponentDecorator = component_;
 

@@ -7,7 +7,7 @@ interface Props {
     bar: string;
 }
 
-@tc.component<Props, Component>({
+@tc.component<Props>({
     props: { foo: String }
 })
 class Component extends tc.TypedComponent<Props> {
