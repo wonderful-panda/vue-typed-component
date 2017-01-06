@@ -1,8 +1,8 @@
 import * as assert from "power-assert";
 import * as Vue from "vue";
 import * as tc from "../..";
+import * as p from "../../lib/propOptions";
 
-const p = tc.PropOptions;
 const orgConsoleError = console.error;
 
 function assertConsoleError<TRet>(func: () => TRet, ...expectedMessages: RegExp[]): TRet {

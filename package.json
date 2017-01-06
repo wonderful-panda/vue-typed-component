@@ -2,10 +2,10 @@
   "name": "vue-typed-component",
   "version": "0.3.1",
   "description": "vue-class-component wrapper to make components more typesafe",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
   "scripts": {
-    "build": "webpack",
+    "build": "tsc",
     "lint": "tslint -c tslint.json src/**/*.ts test/**/*.ts",
     "test:tsc": "mocha-webpack --webpack-config test/tsc/webpack.config.js test/tsc/test.ts",
     "test:karma": "karma start test/karma/karma.conf.js"
