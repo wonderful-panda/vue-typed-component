@@ -1,7 +1,7 @@
 import * as assert from "power-assert";
 import * as Vue from "vue";
 import * as tc from "../..";
-import * as p from "../../lib/propOptions";
+import * as p from "../../lib/props";
 
 const orgConsoleError = console.error;
 
