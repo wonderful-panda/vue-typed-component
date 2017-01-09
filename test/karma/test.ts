@@ -1,7 +1,11 @@
 import * as assert from "power-assert";
 import * as Vue from "vue";
+import * as Vuex from "vuex";
+Vue.use(Vuex);
 import * as tc from "../..";
+import * as tcvx from "../../lib/vuex";
 import * as p from "../../lib/props";
+import component from "vue-class-component";
 
 const orgConsoleError = console.error;
 
@@ -374,6 +378,77 @@ describe("vue-typesafe-component", function() {
                     }
                 }, /^\[Vue warn\]: Invalid prop.* Expected Foo/);
             });
+        });
+    });
+    describe("vuex support", function() {
+        interface State { value: number; }
+        interface Mutations { setValue: number; }
+        interface Actions { add: number; addAsync: number }
+        interface Getters { twice: number; }
+        function prepare(template: string) {
+            const store = tcvx.createStore<State, Mutations, Actions, Getters>({
+                state: { value: 1 },
+                mutations: {
+                    setValue(state, value) {
+                        state.value = value;
+                    }
+                },
+                actions: {
+                    add(context, value) {
+                        context.commit("setValue", context.state.value + value);
+                    },
+                    async addAsync(context, value) {
+                        await new Promise((resolve, _) => setTimeout(resolve, 500));
+                        context.commit("setValue", context.state.value + value);
+                    }
+                },
+                getters: {
+                    twice(state) {
+                        return state.value * 2;
+                    }
+                }
+            });
+            @tc.component<{}>({
+                template,
+                props: {}
+            })
+            class Test extends tc.TypedComponent<{}>{}
+            return new Vue({
+                components: { Test },
+                template: `<test></test>`,
+                store
+            }).$mount();
+        }
+        it("state", async function() {
+            const vm = prepare(`<span>{{ $store.state.value }}</span>`);
+            assert(vm.$el.innerHTML === "1");
+            vm.$store.commit("setValue", 2);
+        });
+        it("commit", async function() {
+            const vm = prepare(`<span>{{ $store.state.value }}</span>`);
+            assert(vm.$el.innerHTML === "1");
+            vm.$store.commit("setValue", 2);
+            await nextTick();
+            assert(vm.$el.innerHTML === "2");
+        });
+        it("dispatch", async function() {
+            const vm = prepare(`<span>{{ $store.state.value }}</span>`);
+            vm.$store.dispatch("add", 2);
+            await nextTick();
+            assert(vm.$el.innerHTML === "3");
+        });
+        it("async dispatch", async function() {
+            const vm = prepare(`<span>{{ $store.state.value }}</span>`);
+            await vm.$store.dispatch("addAsync", 2);
+            await nextTick();
+            assert(vm.$el.innerHTML === "3");
+        });
+        it("getters", async function() {
+            const vm = prepare(`<span>{{ $store.getters.twice }}</span>`);
+            assert(vm.$el.innerHTML === "2");
+            vm.$store.dispatch("add", 1);
+            await nextTick();
+            assert(vm.$el.innerHTML === "4");
         });
 
     });
