@@ -10,7 +10,8 @@
             "es2015"
         ],
         "noImplicitAny": false,
-        "inlineSourceMap": true,
+        "sourceMap": true,
+        "inlineSources": true,
         "declaration": true,
         "noImplicitAny": true,
         "noImplicitThis": true,
