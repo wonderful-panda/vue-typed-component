@@ -2,18 +2,10 @@
 
 import * as tcx from "../../../lib/vuex";
 
-interface State {
-    value: number;
-}
-
-interface Mutations {
-    add: number;
-}
-
-const store = tcx.createStore<State, Mutations>({
+const store = tcx.createStore({
     state: { value: 0 },
     mutations: {
-        add(state, value) {
+        add(state, value: number) {
             state.value += value;
         }
     }
