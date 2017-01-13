@@ -380,76 +380,52 @@ describe("vue-typesafe-component", function() {
             });
         });
     });
-    describe("vuex support", function() {
+    it("vuex support", async function() {
         interface State { value: number; }
         interface Mutations { setValue: number; }
         interface Actions { add: number; addAsync: number }
-        interface Getters { twice: number; }
-        function prepare(template: string) {
-            const store = tcvx.createStore<State, Mutations, Actions, Getters>({
-                state: { value: 1 },
-                mutations: {
-                    setValue(state, value) {
-                        state.value = value;
-                    }
-                },
-                actions: {
-                    add(context, value) {
-                        context.commit("setValue", context.state.value + value);
-                    },
-                    async addAsync(context, value) {
-                        await new Promise((resolve, _) => setTimeout(resolve, 500));
-                        context.commit("setValue", context.state.value + value);
-                    }
-                },
-                getters: {
-                    twice(state) {
-                        return state.value * 2;
-                    }
+        interface Getters { minus: number; }
+        const store = tcvx.builder.build<State, Mutations, Actions, Getters>({
+            state: { value: 1 },
+            mutations: {
+                setValue(state, value) {
+                    state.value = value;
                 }
-            });
-            @tc.component<{}>({
-                template,
-                props: {}
-            })
-            class Test extends tc.TypedComponent<{}>{}
-            return new Vue({
-                components: { Test },
-                template: `<test></test>`,
-                store
-            }).$mount();
-        }
-        it("state", async function() {
-            const vm = prepare(`<span>{{ $store.state.value }}</span>`);
-            assert(vm.$el.innerHTML === "1");
-            vm.$store.commit("setValue", 2);
+            },
+            actions: {
+                add(context, value) {
+                    context.commit("setValue", context.state.value + value);
+                },
+                async addAsync(context, value) {
+                    await new Promise((resolve, _) => setTimeout(resolve, 500));
+                    context.commit("setValue", context.state.value + value);
+                }
+            },
+            getters: {
+                minus(state) {
+                    return state.value * -1;
+                }
+            }
         });
-        it("commit", async function() {
-            const vm = prepare(`<span>{{ $store.state.value }}</span>`);
-            assert(vm.$el.innerHTML === "1");
-            vm.$store.commit("setValue", 2);
-            await nextTick();
-            assert(vm.$el.innerHTML === "2");
-        });
-        it("dispatch", async function() {
-            const vm = prepare(`<span>{{ $store.state.value }}</span>`);
-            vm.$store.dispatch("add", 2);
-            await nextTick();
-            assert(vm.$el.innerHTML === "3");
-        });
-        it("async dispatch", async function() {
-            const vm = prepare(`<span>{{ $store.state.value }}</span>`);
-            await vm.$store.dispatch("addAsync", 2);
-            await nextTick();
-            assert(vm.$el.innerHTML === "3");
-        });
-        it("getters", async function() {
-            const vm = prepare(`<span>{{ $store.getters.twice }}</span>`);
-            assert(vm.$el.innerHTML === "2");
-            vm.$store.dispatch("add", 1);
-            await nextTick();
-            assert(vm.$el.innerHTML === "4");
-        });
+        const vm = new Vue({
+            template: `<span>{{ $store.state.value }}</span>`,
+            store
+        }).$mount();
+        assert(vm.$el.innerHTML === "1");
+        assert(store.getters.minus === -1);
 
+        store.commit("setValue", 2);
+        await nextTick();
+        assert(vm.$el.innerHTML === "2");
+
+        vm.$store.dispatch("add", 1);
+        await nextTick();
+        assert(vm.$el.innerHTML === "3");
+
+        const ret = vm.$store.dispatch("addAsync", 1);
+        assert(vm.$el.innerHTML === "3");
+        await ret;
+        await nextTick();
+        assert(vm.$el.innerHTML === "4");
     });
 });
