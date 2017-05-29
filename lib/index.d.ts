@@ -1,4 +1,4 @@
-import * as Vue from "vue";
+import Vue from "vue";
 import { PropType } from "./types";
 export declare type VueClass<V> = (new () => V) & typeof Vue;
 export declare type PropsDefinition<Props> = {

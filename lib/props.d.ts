@@ -1,4 +1,4 @@
-import * as Vue from "vue";
+import Vue from "vue";
 import { PropType } from "./types";
 export declare type Supplier<T> = () => T;
 export declare type Default<T> = T | Supplier<T>;
