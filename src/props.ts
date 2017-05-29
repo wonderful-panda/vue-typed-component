@@ -1,4 +1,4 @@
-import * as Vue from "vue";
+import Vue from "vue";
 import { PropType } from "./types";
 
 export type Supplier<T> = () => T;
