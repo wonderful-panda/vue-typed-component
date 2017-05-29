@@ -45,11 +45,7 @@ export interface RenderFuncitonalComponent<Props> {
 export type TypedComponentBase<Props> = { $props: Props } & Vue;
 
 // for component which has props
-@component_<TypedComponent<any>>({
-    beforeCreate() {
-        this.$props = this;
-    }
-})
+@component_<TypedComponent<any>>({})
 export class TypedComponent<Props> extends Vue {
     $props: Props;
 }
@@ -57,7 +53,6 @@ export class TypedComponent<Props> extends Vue {
 // for component which has props and events
 @component_<EvTypedComponent<any, any>>({
     beforeCreate() {
-        this.$props = this;
         this.$events = {
             emit: this.$emit.bind(this),
             on: this.$on.bind(this),
