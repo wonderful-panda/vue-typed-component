@@ -41,7 +41,7 @@
     "tsc-test": "^0.1.2",
     "tslint": "^5.3.2",
     "typescript": "^2.3.3",
-    "webpack": "^1.14.0",
+    "webpack": "^2.6.1",
     "webpack-espower-loader": "^1.0.2"
   },
   "dependencies": {

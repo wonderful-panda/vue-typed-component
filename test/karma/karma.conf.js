@@ -1,7 +1,6 @@
 // Karma configuration
 
 var webpackConf = require('./webpack.config.js');
-webpackConf.entry = {};
 
 module.exports = function(config) {
   config.set({

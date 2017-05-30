@@ -9,19 +9,15 @@ module.exports = {
     },
     devtool: 'source-map',
     resolve: {
-        extensions: ["", ".ts", ".js"],
-        root: __dirname,
+        extensions: [".ts", ".js"],
+        modules: [__dirname, "node_modules"],
         alias: {
-            vue: "vue/dist/vue.js"
+            "vue$": "vue/dist/vue.esm.js"
         }
     },
     module: {
         loaders: [
-            { test: /\.ts$/, loader: "ts" },
-            { test: /\.json$/, loader: "json" },
-        ],
-        postLoaders: [
-            { test: /test\.ts$/, loader: "webpack-espower" },
+            { test: /\.ts$/, use: ["webpack-espower-loader", "ts-loader"] }
         ]
     },
 };
