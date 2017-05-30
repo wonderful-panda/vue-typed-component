@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "lint": "tslint -c tslint.json src/**/*.ts test/**/*.ts",
-    "test:tsc": "mocha-webpack --webpack-config test/tsc/webpack.config.js test/tsc/test.ts",
+    "test:tsc": "tsc-test -p test/tsc/tsconfig.json",
     "test:karma": "karma start test/karma/karma.conf.js"
   },
   "repository": {
@@ -38,6 +38,7 @@
     "power-assert": "^1.4.2",
     "source-map-support": "^0.4.15",
     "ts-loader": "^2.1.0",
+    "tsc-test": "^0.1.2",
     "tslint": "^5.3.2",
     "typescript": "^2.3.3",
     "webpack": "^1.14.0",

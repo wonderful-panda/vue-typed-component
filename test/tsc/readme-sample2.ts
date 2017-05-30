@@ -1,6 +1,6 @@
 // Check sample codes in README.md successfully compiled
 
-import * as tc from "../../..";
+import * as tc from "../..";
 
 interface ToDoProps {
     title: string;

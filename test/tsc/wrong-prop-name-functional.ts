@@ -1,6 +1,5 @@
-//// Object literal may only specify known properties, and 'fooo' does not exist in type 'PropsDefinition<Props>'.
 import * as Vue from "vue";
-import * as tc from "../../..";
+import * as tc from "../..";
 
 interface Props {
     foo: string;
@@ -8,6 +7,6 @@ interface Props {
 
 const Component = tc.functionalComponent<Props>(
     "component",
-    { fooo: String },
+    { fooo: String },   //// TS2345: Object literal may only specify known properties, and 'fooo' does not exist in type 'PropsDefinition<Props>'.
     (h: Vue.CreateElement, ctx: tc.RenderContext<Props>) => h("div")
 );

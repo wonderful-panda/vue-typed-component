@@ -1,6 +1,6 @@
 // no error
 
-import * as tc from "../../..";
+import * as tc from "../..";
 
 interface Props {
     foo: string;

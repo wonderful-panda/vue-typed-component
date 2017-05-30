@@ -1,12 +1,11 @@
-//// Property 'foo' is missing in type '{ fooo: {}; }'.
 
-import * as tc from "../../..";
+import * as tc from "../..";
 
 interface Props {
     foo: string;
 }
 
-@tc.component<Props>({
+@tc.component<Props>({  //// TS2345: Property 'foo' is missing in type '{ fooo: {}; }'.
     props: { fooo: {} }
 })
 class Component extends tc.TypedComponent<Props> {

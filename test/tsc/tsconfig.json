@@ -13,12 +13,13 @@
         "noImplicitAny": true,
         "noImplicitThis": true,
         "strictNullChecks": true,
+        "experimentalDecorators": true,
         "allowSyntheticDefaultImports": true
     },
     "filesGlob": [
         "*.ts"
     ],
     "exclude": [
-        "cases/*.ts"
+        "lib.d.ts"
     ]
 }
