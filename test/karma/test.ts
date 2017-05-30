@@ -143,7 +143,7 @@ describe("vue-typesafe-component", function() {
             interface Props {
                 foo: string;
                 bar: number;
-            };
+            }
             const render: tc.RenderFuncitonalComponent<Props> = (h, context) => {
                 return h("div");
             };
