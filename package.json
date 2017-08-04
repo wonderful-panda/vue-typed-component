@@ -8,7 +8,8 @@
     "build": "tsc",
     "lint": "tslint -c tslint.json src/**/*.ts test/**/*.ts",
     "test:tsc": "tsc-test -p test/tsc/tsconfig.json",
-    "test:karma": "karma start test/karma/karma.conf.js"
+    "test:karma": "karma start test/karma/karma.conf.js",
+    "all": "npm-run-all lint build test:tsc test:karma"
   },
   "repository": {
     "type": "git",
@@ -35,6 +36,7 @@
     "karma-webpack": "^2.0.3",
     "mocha": "^3.4.2",
     "mocha-webpack": "^0.7.0",
+    "npm-run-all": "^4.0.2",
     "power-assert": "^1.4.2",
     "source-map-support": "^0.4.15",
     "ts-loader": "^2.1.0",
