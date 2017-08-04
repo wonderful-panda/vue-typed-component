@@ -11,8 +11,8 @@ export type VueClass<V> = (new () => V) & typeof Vue;
 /*
  * Mapped types
  */
-export type PropsDefinition<Props> = {
-    [K in keyof Props]: Vue.PropOptions | PropType
+export type PropsDefinition<PropKeys extends string> = {
+    [K in PropKeys]: Vue.PropOptions | PropType
 };
 
 export type EventsObject<Events> = {
@@ -27,7 +27,7 @@ export type EventsObject<Events> = {
  * Typesafe wrappers of types exposed from vue
  */
 export type ComponentOptions<V extends Vue, Props> = Vue.ComponentOptions<V> & {
-    props: PropsDefinition<Props>
+    props: PropsDefinition<keyof Props>
 };
 
 export interface RenderContext<Props> extends Vue.RenderContext {
@@ -94,7 +94,7 @@ export const component: ComponentDecorator = component_;
  */
 export function functionalComponent<Props>(
                     name: string,
-                    props: PropsDefinition<Props>,
+                    props: PropsDefinition<keyof Props>,
                     render: RenderFuncitonalComponent<Props>): VueClass<Vue> {
     return Vue.extend({
         functional: true,
