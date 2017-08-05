@@ -1,8 +1,8 @@
 import Vue from "vue";
 import { PropType } from "./types";
 export declare type VueClass<V> = (new () => V) & typeof Vue;
-export declare type PropsDefinition<Props> = {
-    [K in keyof Props]: Vue.PropOptions | PropType;
+export declare type PropsDefinition<PropKeys extends string> = {
+    [K in PropKeys]: Vue.PropOptions | PropType;
 };
 export declare type EventsObject<Events> = {
     emit: <K extends keyof Events>(event: K, arg: Events[K]) => any;
@@ -11,7 +11,7 @@ export declare type EventsObject<Events> = {
     off: <K extends keyof Events>(event: K, callback?: (arg: Events[K]) => any) => any;
 };
 export declare type ComponentOptions<V extends Vue, Props> = Vue.ComponentOptions<V> & {
-    props: PropsDefinition<Props>;
+    props: PropsDefinition<keyof Props>;
 };
 export interface RenderContext<Props> extends Vue.RenderContext {
     props: Props;
@@ -42,4 +42,4 @@ export interface ComponentDecorator {
     <P>(options: ComponentOptions<TypedComponentBase<P>, P>): <V extends TypedComponentBase<P>>(target: VueClass<V>) => VueClass<V>;
 }
 export declare const component: ComponentDecorator;
-export declare function functionalComponent<Props>(name: string, props: PropsDefinition<Props>, render: RenderFuncitonalComponent<Props>): VueClass<Vue>;
+export declare function functionalComponent<Props>(name: string, props: PropsDefinition<keyof Props>, render: RenderFuncitonalComponent<Props>): VueClass<Vue>;
