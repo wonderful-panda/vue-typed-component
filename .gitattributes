@@ -1,1 +1,2 @@
-*.json eol=lf
+* text=auto
+*.json text eol=lf
