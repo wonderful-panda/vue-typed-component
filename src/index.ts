@@ -1,11 +1,12 @@
 import Vue from "vue";
+import * as tsx from "vue-tsx-support/lib/api";
 import component_ from "vue-class-component";
 import { PropType } from "./types";
 
-/*
- * copy from d.ts of vue-class-component
- */
-export type VueClass<V> = (new () => V) & typeof Vue;
+export type VueClass<T> = {
+    new (...args: any[]): T;
+    prototype: T;
+} & typeof Vue;
 
 
 /*
@@ -47,6 +48,7 @@ export type TypedComponentBase<Props> = { $props: Props } & Vue;
 // for component which has props
 @component_<TypedComponent<any>>({})
 export class TypedComponent<Props> extends Vue {
+    _tsxattrs: tsx.TsxComponentAttrs<Props>;
     $props: Props;
 }
 
@@ -61,9 +63,10 @@ export class TypedComponent<Props> extends Vue {
         };
     }
 })
-export class EvTypedComponent<Props, Events> extends Vue {
+export class EvTypedComponent<Props, Events, EventsOn = {}> extends Vue {
     $props: Props;
     $events: EventsObject<Events>;
+    _tsxattrs: tsx.TsxComponentAttrs<Props, EventsOn>;
 }
 
 // for component which has props and data
@@ -73,7 +76,7 @@ export abstract class StatefulTypedComponent<Props, Data> extends TypedComponent
 }
 
 // for component which has props, events and data
-export abstract class StatefulEvTypedComponent<Props, Events, Data> extends EvTypedComponent<Props, Events> {
+export abstract class StatefulEvTypedComponent<Props, Events, Data, EventsOn = {}> extends EvTypedComponent<Props, Events, EventsOn> {
     $data: Data;
     abstract data(): Data;
 }
@@ -95,12 +98,12 @@ export const component: ComponentDecorator = component_;
 export function functionalComponent<Props>(
                     name: string,
                     props: PropsDefinition<keyof Props>,
-                    render: RenderFuncitonalComponent<Props>): VueClass<Vue> {
+                    render: RenderFuncitonalComponent<Props>): tsx.TsxComponent<Vue, Props, {}> {
     return Vue.extend({
         functional: true,
         name,
         props: props as any,
         render
-    });
+    }) as any;
 }
 
