@@ -1,6 +1,10 @@
 import Vue from "vue";
+import * as tsx from "vue-tsx-support/lib/api";
 import { PropType } from "./types";
-export declare type VueClass<V> = (new () => V) & typeof Vue;
+export declare type VueClass<T> = {
+    new (...args: any[]): T;
+    prototype: T;
+} & typeof Vue;
 export declare type PropsDefinition<PropKeys extends string> = {
     [K in PropKeys]: Vue.PropOptions | PropType;
 };
@@ -23,17 +27,19 @@ export declare type TypedComponentBase<Props> = {
     $props: Props;
 } & Vue;
 export declare class TypedComponent<Props> extends Vue {
+    _tsxattrs: tsx.TsxComponentAttrs<Props>;
     $props: Props;
 }
-export declare class EvTypedComponent<Props, Events> extends Vue {
+export declare class EvTypedComponent<Props, Events, EventsOn = {}> extends Vue {
     $props: Props;
     $events: EventsObject<Events>;
+    _tsxattrs: tsx.TsxComponentAttrs<Props, EventsOn>;
 }
 export declare abstract class StatefulTypedComponent<Props, Data> extends TypedComponent<Props> {
     $data: Data;
     abstract data(): Data;
 }
-export declare abstract class StatefulEvTypedComponent<Props, Events, Data> extends EvTypedComponent<Props, Events> {
+export declare abstract class StatefulEvTypedComponent<Props, Events, Data, EventsOn = {}> extends EvTypedComponent<Props, Events, EventsOn> {
     $data: Data;
     abstract data(): Data;
 }
@@ -42,4 +48,4 @@ export interface ComponentDecorator {
     <P>(options: ComponentOptions<TypedComponentBase<P>, P>): <V extends TypedComponentBase<P>>(target: VueClass<V>) => VueClass<V>;
 }
 export declare const component: ComponentDecorator;
-export declare function functionalComponent<Props>(name: string, props: PropsDefinition<keyof Props>, render: RenderFuncitonalComponent<Props>): VueClass<Vue>;
+export declare function functionalComponent<Props>(name: string, props: PropsDefinition<keyof Props>, render: RenderFuncitonalComponent<Props>): tsx.TsxComponent<Vue, Props, {}>;
