@@ -46,41 +46,44 @@ export interface RenderFuncitonalComponent<Props> {
 export type TypedComponentBase<Props> = { $props: Props } & Vue;
 
 // for component which has props
-@component_<TypedComponent<any>>({})
-export class TypedComponent<Props> extends Vue {
-    _tsxattrs: tsx.TsxComponentAttrs<Props>;
+export class TypedComponent<Props, ScopedSlots = {}> extends tsx.Component<Props, {}, ScopedSlots> {
     $props: Props;
 }
 
 // for component which has props and events
-@component_<EvTypedComponent<any, any>>({
-    beforeCreate() {
-        this.$events = {
+export class EvTypedComponent<Props, Events, EventsOn = {}, ScopedSlots = {}> extends tsx.Component<Props, EventsOn, ScopedSlots> {
+    $props: Props;
+    get $events(): EventsObject<Events> {
+        return {
             emit: this.$emit.bind(this),
             on: this.$on.bind(this),
             once: this.$once.bind(this),
             off: this.$off.bind(this)
         };
     }
-})
-export class EvTypedComponent<Props, Events, EventsOn = {}> extends Vue {
-    $props: Props;
-    $events: EventsObject<Events>;
-    _tsxattrs: tsx.TsxComponentAttrs<Props, EventsOn>;
 }
 
 // for component which has props and data
-export abstract class StatefulTypedComponent<Props, Data> extends TypedComponent<Props> {
+export abstract class StatefulTypedComponent<Props, Data, ScopedSlots = {}> extends tsx.Component<Props, {}, ScopedSlots> {
+    $props: Props;
     $data: Data;
     abstract data(): Data;
 }
 
 // for component which has props, events and data
-export abstract class StatefulEvTypedComponent<Props, Events, Data, EventsOn = {}> extends EvTypedComponent<Props, Events, EventsOn> {
+export abstract class StatefulEvTypedComponent<Props, Events, Data, EventsOn = {}, ScopedSlots = {}> extends tsx.Component<Props, EventsOn, ScopedSlots> {
+    $props: Props;
+    get $events(): EventsObject<Events> {
+        return {
+            emit: this.$emit.bind(this),
+            on: this.$on.bind(this),
+            once: this.$once.bind(this),
+            off: this.$off.bind(this)
+        };
+    }
     $data: Data;
     abstract data(): Data;
 }
-
 
 /*
  * Typesafe definition of decorator
