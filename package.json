@@ -9,7 +9,7 @@
     "lint": "tslint -c tslint.json src/**/*.ts test/**/*.ts",
     "test:tsc": "tsc-test -p test/tsc/tsconfig.json",
     "test:karma": "karma start test/karma/karma.conf.js",
-    "all": "npm-run-all lint build test:tsc test:karma"
+    "test": "tsc-test -p test/tsc/tsconfig.json"
   },
   "repository": {
     "type": "git",
