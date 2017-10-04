@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/wonderful-panda/vue-typed-component.svg?branch=master)](https://travis-ci.org/wonderful-panda/vue-typed-component)
+
 # vue-typesafe-component
 Make vue-class-component more typesafe
 
