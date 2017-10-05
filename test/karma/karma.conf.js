@@ -64,4 +64,16 @@ module.exports = function(config) {
 
     webpack: webpackConf,
   })
+
+  if (process.env.TRAVIS) {
+    config.set({
+      customLaunchers: {
+        chromeTravisCI: {
+          base: 'Chrome',
+          flags: ['--no-sandbox']
+        }
+      },
+      browsers: ['chromeTravisCI']
+    })
+  }
 }
