@@ -1,10 +1,10 @@
 [![Build Status](https://travis-ci.org/wonderful-panda/vue-typed-component.svg?branch=master)](https://travis-ci.org/wonderful-panda/vue-typed-component)
 
-# vue-typesafe-component
+# vue-typed-component
 Make vue-class-component more typesafe
 
 ## Requirement
-TypeScript >= 2.1
+TypeScript >= 2.3
 
 ## Example
 
