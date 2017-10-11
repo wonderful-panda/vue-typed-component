@@ -1,7 +1,7 @@
 import Vue from "vue";
-import * as tsx from "vue-tsx-support/lib/api";
+import * as tsx from "vue-tsx-support";
 import component_ from "vue-class-component";
-import { PropType } from "./types";
+import * as p from "./props";
 
 export type VueClass<T> = {
     new (...args: any[]): T;
@@ -13,7 +13,7 @@ export type VueClass<T> = {
  * Mapped types
  */
 export type PropsDefinition<PropKeys extends string> = {
-    [K in PropKeys]: Vue.PropOptions | PropType
+    [K in PropKeys]: Vue.PropOptions | p.PropType
 };
 
 export type EventsObject<Events> = {
@@ -109,4 +109,15 @@ export function functionalComponent<Props>(
         render
     }) as any;
 }
+
+export const props = {
+    Str: p.Str,
+    Num: p.Num,
+    Bool: p.Bool,
+    Arr: p.Arr,
+    Obj: p.Obj,
+    Func: p.Func,
+    Any: p.Any,
+    ofType: p.ofType
+};
 

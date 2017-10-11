@@ -1,5 +1,6 @@
 import Vue from "vue";
-import { PropType } from "./types";
+export type Constructor = new (...args: any[]) => any;
+export type PropType = Constructor | Constructor[] | null;
 
 export type Supplier<T> = () => T;
 export type Default<T> = T | Supplier<T>;
