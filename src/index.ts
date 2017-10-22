@@ -1,4 +1,5 @@
-import Vue from "vue";
+import Vue, { PropOptions, ComponentOptions, CreateElement, RenderContext, VNode } from "vue";
+import { Prop } from "vue/types/options";
 import * as tsx from "vue-tsx-support";
 import component_ from "vue-class-component";
 import * as p from "./props";
@@ -13,7 +14,7 @@ export type VueClass<T> = {
  * Mapped types
  */
 export type PropsDefinition<PropKeys extends string> = {
-    [K in PropKeys]: Vue.PropOptions | p.PropType
+    [K in PropKeys]: PropOptions | Prop<any>
 };
 
 export type EventsObject<Events> = {
@@ -27,16 +28,12 @@ export type EventsObject<Events> = {
 /*
  * Typesafe wrappers of types exposed from vue
  */
-export type ComponentOptions<V extends Vue, Props> = Vue.ComponentOptions<V> & {
+export type PropTypedComponentOptions<V extends Vue, Props> = ComponentOptions<V> & {
     props: PropsDefinition<keyof Props>
 };
 
-export interface RenderContext<Props> extends Vue.RenderContext {
-  props: Props;
-}
-
 export interface RenderFuncitonalComponent<Props> {
-    (this: never, h: Vue.CreateElement, context: RenderContext<Props>): Vue.VNode;
+    (this: never, h: CreateElement, context: RenderContext<Props>): VNode;
 }
 
 
@@ -89,8 +86,7 @@ export abstract class StatefulEvTypedComponent<Props, Events, Data, EventsOn = {
  * Typesafe definition of decorator
  */
 export interface ComponentDecorator {
-    <P, V extends TypedComponentBase<P>>(options: ComponentOptions<V, P>): (target: VueClass<V>) => VueClass<V>;
-    <P>(options: ComponentOptions<TypedComponentBase<P>, P>): <V extends TypedComponentBase<P>>(target: VueClass<V>) => VueClass<V>;
+    <P, V extends TypedComponentBase<P> = TypedComponentBase<P>>(options: PropTypedComponentOptions<V, P> & ThisType<V>): (target: VueClass<V>) => VueClass<V>;
 }
 export const component: ComponentDecorator = component_;
 

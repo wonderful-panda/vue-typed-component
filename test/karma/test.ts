@@ -1,5 +1,5 @@
 import * as assert from "power-assert";
-import Vue from "vue";
+import Vue, { PropOptions, ComponentOptions } from "vue";
 import * as tc from "../..";
 const p = tc.props;
 
@@ -165,17 +165,17 @@ describe("vue-typesafe-component", function() {
         });
     });
     describe("prop option builder", function() {
-        function createComponent(prop: Vue.PropOptions) {
+        function createComponent(prop: PropOptions) {
             return Vue.extend({
                 name: "test",
                 props: { foo: prop },
                 template: `<span>{{ foo }}</span>`
             });
         }
-        function tester(prop: Vue.PropOptions) {
+        function tester(prop: PropOptions) {
             const components = { Test: createComponent(prop) };
-            return function(templateOrPropOptions: string | Vue.ComponentOptions<Vue>, ...messages: RegExp[]): Vue {
-                let opt: Vue.ComponentOptions<Vue>;
+            return function(templateOrPropOptions: string | ComponentOptions<Vue>, ...messages: RegExp[]): Vue {
+                let opt: ComponentOptions<Vue>;
                 if (typeof templateOrPropOptions === "string") {
                     opt = { template: templateOrPropOptions, components };
                 }

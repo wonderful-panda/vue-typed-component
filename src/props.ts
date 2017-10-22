@@ -1,24 +1,24 @@
-import Vue from "vue";
+import Vue, { PropOptions } from "vue";
+import { Prop } from "vue/types/options";
 export type Constructor = new (...args: any[]) => any;
-export type PropType = Constructor | Constructor[] | null;
 
-export type Supplier<T> = () => T;
-export type Default<T> = T | Supplier<T>;
+export type ObjectSupplier<T> = () => (T & object);
+export type Default<T> = T | ObjectSupplier<T>;
 export type Validator<T> = (value: T) => boolean;
 
-export type PropOrValidator<T, V> = Vue.PropOptions & V & {
-    Validator: (v: Validator<T>) => Vue.PropOptions
+export type PropOrValidator<T, V> = PropOptions & V & {
+    Validator: (v: Validator<T>) => PropOptions
 };
 
-export type PropOptionBuilder<T, TDefault, V> = PropOrValidator<T, V> & {
+export type PropOptionBuilder<T, V> = PropOrValidator<T, V> & {
     Required: PropOrValidator<T, V>;
-    Default(value: TDefault): PropOrValidator<T, V>;
+    Default(value: Default<T>): PropOrValidator<T, V>;
 };
 
-function createPropOptionBuilder<T, TDefault, V>(type: PropType, createValidators: (base: Vue.PropOptions) => V): PropOptionBuilder<T, TDefault, V> {
-    function createPartial(base: Vue.PropOptions): PropOrValidator<T, V> {
+function createPropOptionBuilder<T, TDefault extends Default<T>, V>(type: Prop<T>, createValidators: (base: PropOptions<T>) => V): PropOptionBuilder<T, V> {
+    function createPartial(base: PropOptions<T>): PropOrValidator<T, V> {
         return Object.assign({
-            Validator: (validator: Validator<T>) => <Vue.PropOptions>{ ...base, validator }
+            Validator: (validator: Validator<T>) => <PropOptions<T>>{ ...base, validator }
         }, base, createValidators(base));
     }
     return Object.assign({
@@ -28,8 +28,8 @@ function createPropOptionBuilder<T, TDefault, V>(type: PropType, createValidator
 }
 
 export interface StringValidators {
-    $in(...values: string[]): Vue.PropOptions;
-    $match(pattern: RegExp): Vue.PropOptions;
+    $in(...values: string[]): PropOptions;
+    $match(pattern: RegExp): PropOptions;
 }
 
 export const Str = createPropOptionBuilder<string, Default<string>, StringValidators>(String, base => {
@@ -41,14 +41,14 @@ export const Str = createPropOptionBuilder<string, Default<string>, StringValida
 });
 
 export interface NumberValidators {
-    $lessThan(max: number): Vue.PropOptions;
-    $greaterThan(min: number): Vue.PropOptions;
-    $lessEqual(max: number): Vue.PropOptions;
-    $greaterEqual(min: number): Vue.PropOptions;
-    $between(min: number, max: number): Vue.PropOptions;
-    $nonZero(): Vue.PropOptions;
-    $positive(): Vue.PropOptions;
-    $nonNegative(): Vue.PropOptions;
+    $lessThan(max: number): PropOptions;
+    $greaterThan(min: number): PropOptions;
+    $lessEqual(max: number): PropOptions;
+    $greaterEqual(min: number): PropOptions;
+    $between(min: number, max: number): PropOptions;
+    $nonZero(): PropOptions;
+    $positive(): PropOptions;
+    $nonNegative(): PropOptions;
 }
 
 export const Num = createPropOptionBuilder<number, Default<number>, NumberValidators>(Number, base => {
@@ -67,12 +67,12 @@ export const Num = createPropOptionBuilder<number, Default<number>, NumberValida
 });
 
 export interface ArrayValidators {
-    $maxLength(max: number): Vue.PropOptions;
-    $notEmpty(): Vue.PropOptions;
-    $all(test: (v: any) => boolean): Vue.PropOptions;
+    $maxLength(max: number): PropOptions;
+    $notEmpty(): PropOptions;
+    $all(test: (v: any) => boolean): PropOptions;
 }
 
-export const Arr = createPropOptionBuilder<any[], Supplier<any[]>, ArrayValidators>(Array, base => {
+export const Arr = createPropOptionBuilder<any[], ObjectSupplier<any[]>, ArrayValidators>(Array, base => {
     const $ = (validator: Validator<any[]>) => ({ ...base, validator });
 
     return {
@@ -90,10 +90,10 @@ export const Arr = createPropOptionBuilder<any[], Supplier<any[]>, ArrayValidato
 });
 
 export const Bool = createPropOptionBuilder<boolean, Default<boolean>, undefined>(Boolean, base => undefined);
-export const Func = createPropOptionBuilder<(...args: any[]) => any, Supplier<(...args: any[]) => any>, undefined>(Function, base => undefined);
-export const Obj = createPropOptionBuilder<{}, Supplier<{}>, undefined>(Object, base => undefined);
-export const Any = createPropOptionBuilder<null, any, undefined>(null, base => undefined);
-export function ofType(type: PropType) {
-    return createPropOptionBuilder<any, any, undefined>(type, base => undefined);
+export const Func = createPropOptionBuilder<Function, ObjectSupplier<Function>, undefined>(Function, base => undefined);
+export const Obj = createPropOptionBuilder<Object, ObjectSupplier<Object>, undefined>(Object, base => undefined);
+export const Any = createPropOptionBuilder<any, any, undefined>(null as any, base => undefined);
+export function ofType<T>(type: Prop<T>) {
+    return createPropOptionBuilder<T, Default<T>, undefined>(type, base => undefined);
 }
 

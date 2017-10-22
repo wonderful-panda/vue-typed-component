@@ -4,7 +4,8 @@
 Make vue-class-component more typesafe
 
 ## Requirement
-TypeScript >= 2.3
+TypeScript >= 2.5
+Vue >= 2.5
 
 ## Example
 

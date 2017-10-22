@@ -1,4 +1,3 @@
-
 import * as tc from "../..";
 
 interface Props {

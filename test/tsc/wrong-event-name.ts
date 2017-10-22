@@ -1,5 +1,3 @@
-
-
 import * as tc from "../..";
 
 interface Events {
