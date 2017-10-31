@@ -7,6 +7,20 @@ Make vue-class-component more typesafe
 - TypeScript >= 2.5
 - Vue >= 2.5
 
+## Install
+
+install from npm:
+
+```console
+npm install vue-typed-component -S
+```
+
+and install peer dependencies from npm:
+
+```console
+npm install vue vue-class-component vue-tsx-support -S
+```
+
 ## Example
 
 ```typescript
