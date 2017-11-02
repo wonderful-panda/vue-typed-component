@@ -9,12 +9,9 @@
             "dom",
             "es2015"
         ],
-        "noImplicitAny": false,
         "inlineSourceMap": true,
         "declaration": true,
-        "noImplicitAny": true,
-        "noImplicitThis": true,
-        "strictNullChecks": true,
+        "strict": true,
         "allowSyntheticDefaultImports": true
     },
     "include": [
