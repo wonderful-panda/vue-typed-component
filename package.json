@@ -6,10 +6,15 @@
   "typings": "lib/index.d.ts",
   "scripts": {
     "build": "webpack",
-    "lint": "tslint -c tslint.json src/**/*.ts test/**/*.ts",
-    "test:tsc": "tsc-test -p test/tsc/tsconfig.json",
-    "test:jest": "jest",
-    "test": "npm-run-all lint test:tsc test:jest"
+    "tslint": "tslint -c tslint.json src/**/*.ts test/**/*.ts",
+    "tslint:fix": "tslint -c tslint.json src/**/*.ts test/**/*.ts --fix",
+    "prettier": "prettier \"{src,test/jest}/**/*.ts\" --list-different",
+    "prettier:fix": "prettier \"{src,test/jest}/**/*.ts\" --write",
+    "lint": "npm-run-all tslint prettier",
+    "lint:fix": "npm-run-all tslint:fix prettier:fix",
+    "tsc-test": "tsc-test -p test/tsc/tsconfig.json",
+    "jest": "jest",
+    "test": "npm-run-all lint tsc-test jest"
   },
   "repository": {
     "type": "git",
@@ -29,11 +34,13 @@
     "jest": "^21.2.1",
     "json-loader": "^0.5.4",
     "npm-run-all": "^4.0.2",
+    "prettier": "^1.8.1",
     "source-map-support": "^0.4.15",
     "ts-jest": "^21.1.4",
     "ts-loader": "^2.1.0",
     "tsc-test": "^0.1.5",
     "tslint": "^5.3.2",
+    "tslint-config-prettier": "^1.6.0",
     "typescript": "^2.5.3",
     "vue": "^2.5.2",
     "vue-class-component": "^6.0.0",
@@ -51,6 +58,9 @@
       "ts",
       "json"
     ],
+    "setupFiles": [
+      "<rootDir>/test/jest/setup.ts"
+    ],
     "moduleNameMapper": {
       "^vue$": "<rootDir>/node_modules/vue/dist/vue.js"
     },
@@ -58,5 +68,9 @@
     "transform": {
       "^.+\\.ts$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     }
+  },
+  "prettier": {
+    "printWidth": 120,
+    "tabWidth": 4
   }
 }

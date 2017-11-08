@@ -1,25 +1,25 @@
 {
-    "compilerOptions": {
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "outDir": "dist",
-        "target": "es5",
-        "lib": [
-            "dom",
-            "es2015"
-        ],
-        "noImplicitAny": false,
-        "sourceMap": false,
-        "noImplicitAny": true,
-        "noImplicitThis": true,
-        "strict": true,
-        "experimentalDecorators": true,
-        "allowSyntheticDefaultImports": true
-    },
-    "filesGlob": [
-        "*.ts"
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "target": "es5",
+    "lib": [
+      "dom",
+      "es2015"
     ],
-    "exclude": [
-        "lib.d.ts"
-    ]
+    "noImplicitAny": false,
+    "sourceMap": false,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strict": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "filesGlob": [
+    "*.ts"
+  ],
+  "exclude": [
+    "lib.d.ts"
+  ]
 }

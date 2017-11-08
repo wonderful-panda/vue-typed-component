@@ -1,20 +1,20 @@
 {
-    "compilerOptions": {
-        "module": "es2015",
-        "moduleResolution": "node",
-        "outDir": "lib",
-        "experimentalDecorators": true,
-        "target": "es5",
-        "lib": [
-            "dom",
-            "es2015"
-        ],
-        "inlineSourceMap": true,
-        "declaration": true,
-        "strict": true,
-        "allowSyntheticDefaultImports": true
-    },
-    "include": [
-        "src/**/*.ts"
-    ]
+  "compilerOptions": {
+    "module": "es2015",
+    "moduleResolution": "node",
+    "outDir": "lib",
+    "experimentalDecorators": true,
+    "target": "es5",
+    "lib": [
+        "dom",
+        "es2015"
+    ],
+    "inlineSourceMap": true,
+    "declaration": true,
+    "strict": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [
+    "src/**/*.ts"
+  ]
 }

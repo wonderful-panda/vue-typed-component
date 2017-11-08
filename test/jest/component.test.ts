@@ -3,15 +3,17 @@ import * as tc from "../..";
 
 async function mount(component: typeof Vue, props: any): Promise<Vue> {
     const vm = new Vue({
-        render(h) { return h(component, { props }); }
+        render(h) {
+            return h(component, { props });
+        }
     }).$mount();
     await Vue.nextTick();
-    return vm
+    return vm;
 }
 
 describe("vue-typed-component", () => {
     describe("TypedComponent", () => {
-        it("basic functionary (props just work)", async function() {
+        it("basic functionary (props just work)", async () => {
             interface Props {
                 foo: string;
                 bar: number;
@@ -23,14 +25,13 @@ describe("vue-typed-component", () => {
                 },
                 template: "<span>{{ foo }} {{ bar }}</span>"
             })
-            class Test extends tc.TypedComponent<Props> {
-            }
+            class Test extends tc.TypedComponent<Props> {}
 
             const vm = await mount(Test, { foo: "test" });
             expect(vm.$el.innerHTML).toBe("test 1");
         });
 
-        it("use $props in template", async function() {
+        it("use $props in template", async () => {
             interface Props {
                 foo: string;
             }
@@ -40,16 +41,14 @@ describe("vue-typed-component", () => {
                     foo: String
                 }
             })
-            class Test extends tc.TypedComponent<Props> {
-            }
+            class Test extends tc.TypedComponent<Props> {}
 
             const vm = await mount(Test, { foo: "test" });
             expect(vm.$el.innerHTML).toBe("test");
         });
-
     });
 
-    describe("EvTypedComponent", function() {
+    describe("EvTypedComponent", () => {
         interface Props {
             foo: string;
         }
@@ -60,26 +59,27 @@ describe("vue-typed-component", () => {
             template: `<span>{{ foo }}</span>`,
             props: { foo: String }
         })
-        class Test extends tc.EvTypedComponent<Props, Events> {
-        }
+        class Test extends tc.EvTypedComponent<Props, Events> {}
 
         async function createVm() {
             const vm = new Vue({
-                    data() { return { value: "initial value" }; },
-                    methods: {
-                        onChange(value: string): void {
-                            this.value = value;
-                        }
-                    },
-                    render(h): VNode {
-                        return h(Test, { ref: "test", props: { foo: this.value }, on: { change: this.onChange } })
+                data() {
+                    return { value: "initial value" };
+                },
+                methods: {
+                    onChange(value: string): void {
+                        this.value = value;
                     }
-                }).$mount();
-                await Vue.nextTick();
+                },
+                render(h): VNode {
+                    return h(Test, { ref: "test", props: { foo: this.value }, on: { change: this.onChange } });
+                }
+            }).$mount();
+            await Vue.nextTick();
             return vm;
         }
 
-        it("basic functionary (emit just works)", async function() {
+        it("basic functionary (emit just works)", async () => {
             const vm = await createVm();
             expect(vm.$el.innerHTML).toBe("initial value");
             const test = (vm.$refs as any).test as Test;
@@ -90,7 +90,7 @@ describe("vue-typed-component", () => {
             expect(vm.$el.innerHTML).toBe("second value");
         });
 
-        it("on, once, and off", async function() {
+        it("on, once, and off", async () => {
             const vm = await createVm();
             const test = (vm.$refs as any).test as Test;
             expect(test).not.toBeNull();
@@ -113,8 +113,8 @@ describe("vue-typed-component", () => {
         });
     });
 
-    describe("functional component", function() {
-        it("basic functionary", async function() {
+    describe("functional component", () => {
+        it("basic functionary", async () => {
             interface Props {
                 foo: string;
                 bar: number;
@@ -126,7 +126,7 @@ describe("vue-typed-component", () => {
                     bar: { type: Number, default: 1 }
                 },
                 (h, { props }) => {
-                    return h("span", [ props.foo + props.bar.toString() ]);
+                    return h("span", [props.foo + props.bar.toString()]);
                 }
             );
             const vm = await mount(Test, { foo: "value" });
