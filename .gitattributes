@@ -1,2 +1,4 @@
 * text=auto
 *.json text eol=lf
+*.ts text eol=lf
+.travis.yml text eol=lf
