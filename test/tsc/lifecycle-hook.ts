@@ -16,3 +16,15 @@ class Component extends tc.TypedComponent<Props> {
     greet() {
     }
 }
+
+@tc.component(Component2, {
+    props: { foo: {} },
+    created() {
+        this.greet();
+    }
+})
+class Component2 extends tc.TypedComponent<Props> {
+    greet() {
+    }
+}
+

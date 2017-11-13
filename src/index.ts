@@ -94,16 +94,16 @@ export abstract class StatefulEvTypedComponent<
 export type ComponentDecorator<V extends Vue> = (origClass: VueClass<V>) => VueClass<V>;
 
 // convert `{ foo?: X, bar?: Y }` to `{ foo: X|undefined, bar: Y|undefined }`
-export type StripOptional<T> = T & Record<keyof T, {}>;
+export type StripOptional<T> = T & Record<keyof T, {} | undefined>;
 
 export interface ComponentDecoratorFactory {
     <Props, V extends TypedComponentBase<Props>>(
         origClass: VueClass<V & TypedComponentBase<Props>>,
-        options: ThisTypedComponentOptionsWithRecordProps<V, {}, {}, {}, StripOptional<Props>>
+        options: ThisTypedComponentOptionsWithRecordProps<V, {}, {}, {}, StripOptional<Props>> & { props: {} }
     ): ComponentDecorator<V>;
 
     <Props, V extends TypedComponentBase<Props> = TypedComponentBase<Props>>(
-        options: PropTypedComponentOptions<V, Props> & ThisType<V>
+        options: ThisTypedComponentOptionsWithRecordProps<V, {}, {}, {}, StripOptional<Props>> & { props: {} }
     ): ComponentDecorator<V>;
 }
 

@@ -10,3 +10,9 @@ interface Props {
 })
 class Component extends tc.TypedComponent<Props> {
 }
+
+@tc.component(Component2, {  //// TS2345: Property 'bar' is missing
+    props: { foo: String }
+})
+class Component2 extends tc.TypedComponent<Props> {
+}

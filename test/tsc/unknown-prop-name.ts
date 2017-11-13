@@ -11,3 +11,9 @@ interface Props {
 })
 class Component extends tc.TypedComponent<Props> {
 }
+
+@tc.component(Component2, {
+    props: { foo: { type: String }, bar: {} }
+})
+class Component2 extends tc.TypedComponent<Props> {
+}

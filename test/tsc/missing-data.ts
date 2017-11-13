@@ -13,3 +13,10 @@ interface Data {
 class Component    //// TS2515: does not implement inherited abstract member 'data'
     extends tc.StatefulTypedComponent<Props, Data> {
 }
+
+@tc.component(Component2, {
+    props: { foo: String }
+})
+class Component2    //// TS2515: does not implement inherited abstract member 'data'
+    extends tc.StatefulTypedComponent<Props, Data> {
+}
