@@ -14,6 +14,5 @@ interface Props {
 })
 class Component extends tc.TypedComponent<Props> {
     greet() {
-        console.log("hi");
     }
 }

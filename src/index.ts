@@ -1,40 +1,33 @@
-import Vue, { PropOptions, ComponentOptions, CreateElement, RenderContext, VNode } from "vue";
-import { PropValidator, ThisTypedComponentOptionsWithRecordProps } from "vue/types/options";
-import * as tsx from "vue-tsx-support";
+import Vue, { ComponentOptions, CreateElement, PropOptions, RenderContext, VNode } from "vue";
 import component_ from "vue-class-component";
+import * as tsx from "vue-tsx-support";
+import { PropValidator, ThisTypedComponentOptionsWithRecordProps } from "vue/types/options";
 
 export type VueClass<T> = {
-    new (...args: any[]): T;
     prototype: T;
+    new (...args: any[]): T;
 } & typeof Vue;
-
 
 /*
  * Mapped types
  */
-export type PropsDefinition<PropKeys extends string> = {
-    [K in PropKeys]: PropValidator<any>
-};
+export type PropsDefinition<PropKeys extends string> = { [K in PropKeys]: PropValidator<any> };
 
-export type EventsObject<Events> = {
+export interface EventsObject<Events> {
     emit: <K extends keyof Events>(event: K, arg: Events[K]) => any;
     on: <K extends keyof Events>(event: K, callback: (arg: Events[K]) => any) => any;
     once: <K extends keyof Events>(event: K, callback: (arg: Events[K]) => any) => any;
     off: <K extends keyof Events>(event: K, callback?: (arg: Events[K]) => any) => any;
-};
-
+}
 
 /*
  * Typesafe wrappers of types exposed from vue
  */
 export type PropTypedComponentOptions<V extends Vue, Props> = ComponentOptions<V> & {
-    props: PropsDefinition<keyof Props>
+    props: PropsDefinition<keyof Props>;
 };
 
-export interface RenderFuncitonalComponent<Props> {
-    (this: never, h: CreateElement, context: RenderContext<Props>): VNode;
-}
-
+export type RenderFuncitonalComponent<Props> = (this: never, h: CreateElement, context: RenderContext<Props>) => VNode;
 
 /*
  * Base classes of typesafe Component
@@ -47,7 +40,11 @@ export class TypedComponent<Props, ScopedSlots = {}> extends tsx.Component<Props
 }
 
 // for component which has props and events
-export class EvTypedComponent<Props, Events, EventsOn = {}, ScopedSlots = {}> extends tsx.Component<Props, EventsOn, ScopedSlots> {
+export class EvTypedComponent<Props, Events, EventsOn = {}, ScopedSlots = {}> extends tsx.Component<
+    Props,
+    EventsOn,
+    ScopedSlots
+> {
     $props: Props;
     get $events(): EventsObject<Events> {
         return {
@@ -60,14 +57,24 @@ export class EvTypedComponent<Props, Events, EventsOn = {}, ScopedSlots = {}> ex
 }
 
 // for component which has props and data
-export abstract class StatefulTypedComponent<Props, Data, ScopedSlots = {}> extends tsx.Component<Props, {}, ScopedSlots> {
+export abstract class StatefulTypedComponent<Props, Data, ScopedSlots = {}> extends tsx.Component<
+    Props,
+    {},
+    ScopedSlots
+> {
     $props: Props;
     $data: Data;
     abstract data(): Data;
 }
 
 // for component which has props, events and data
-export abstract class StatefulEvTypedComponent<Props, Events, Data, EventsOn = {}, ScopedSlots = {}> extends tsx.Component<Props, EventsOn, ScopedSlots> {
+export abstract class StatefulEvTypedComponent<
+    Props,
+    Events,
+    Data,
+    EventsOn = {},
+    ScopedSlots = {}
+> extends tsx.Component<Props, EventsOn, ScopedSlots> {
     $props: Props;
     get $events(): EventsObject<Events> {
         return {
@@ -84,25 +91,23 @@ export abstract class StatefulEvTypedComponent<Props, Events, Data, EventsOn = {
 /*
  * Typesafe definition of decorator
  */
-export interface ComponentDecorator<V extends Vue> {
-    (origClass: VueClass<V>): VueClass<V>;
-}
+export type ComponentDecorator<V extends Vue> = (origClass: VueClass<V>) => VueClass<V>;
 
 // convert `{ foo?: X, bar?: Y }` to `{ foo: X|undefined, bar: Y|undefined }`
 export type StripOptional<T> = T & Record<keyof T, {}>;
 
 export interface ComponentDecoratorFactory {
-  <Props, V extends TypedComponentBase<Props>>(
-      origClass: VueClass<V & TypedComponentBase<Props>>,
-      options: ThisTypedComponentOptionsWithRecordProps<V, {}, {}, {}, StripOptional<Props>>
-  ): ComponentDecorator<V>;
+    <Props, V extends TypedComponentBase<Props>>(
+        origClass: VueClass<V & TypedComponentBase<Props>>,
+        options: ThisTypedComponentOptionsWithRecordProps<V, {}, {}, {}, StripOptional<Props>>
+    ): ComponentDecorator<V>;
 
-  <Props, V extends TypedComponentBase<Props> = TypedComponentBase<Props>>(
-      options: PropTypedComponentOptions<V, Props> & ThisType<V>
-  ): ComponentDecorator<V>;
+    <Props, V extends TypedComponentBase<Props> = TypedComponentBase<Props>>(
+        options: PropTypedComponentOptions<V, Props> & ThisType<V>
+    ): ComponentDecorator<V>;
 }
 
-export const component: ComponentDecoratorFactory = function(...args: any[]): ComponentDecorator<Vue> {
+export const component: ComponentDecoratorFactory = (...args: any[]) => {
     return component_(args[1] || args[0]);
 };
 
@@ -110,9 +115,10 @@ export const component: ComponentDecoratorFactory = function(...args: any[]): Co
  * Typesafe helper to define functional component
  */
 export function functionalComponent<Props>(
-                    name: string,
-                    props: PropsDefinition<keyof Props>,
-                    render: RenderFuncitonalComponent<Props>): tsx.TsxComponent<Vue, Props, {}> {
+    name: string,
+    props: PropsDefinition<keyof Props>,
+    render: RenderFuncitonalComponent<Props>
+): tsx.TsxComponent<Vue, Props, {}> {
     return Vue.extend({
         functional: true,
         name,
@@ -120,4 +126,3 @@ export function functionalComponent<Props>(
         render
     }) as any;
 }
-
