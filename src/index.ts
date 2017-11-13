@@ -2,7 +2,6 @@ import Vue, { PropOptions, ComponentOptions, CreateElement, RenderContext, VNode
 import { PropValidator, ThisTypedComponentOptionsWithRecordProps } from "vue/types/options";
 import * as tsx from "vue-tsx-support";
 import component_ from "vue-class-component";
-import * as p from "./props";
 
 export type VueClass<T> = {
     new (...args: any[]): T;
@@ -121,15 +120,4 @@ export function functionalComponent<Props>(
         render
     }) as any;
 }
-
-export const props = {
-    Str: p.Str,
-    Num: p.Num,
-    Bool: p.Bool,
-    Arr: p.Arr,
-    Obj: p.Obj,
-    Func: p.Func,
-    Any: p.Any,
-    ofType: p.ofType
-};
 
