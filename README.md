@@ -7,6 +7,10 @@ Make vue-class-component more typesafe
 - TypeScript >= 2.5
 - Vue >= 2.5
 
+## Breaking changes
+- 0.10.0
+  - Undocumented api `props` has removed. Use [vue-strict-prop](https://github.com/wonderful-panda/vue-strict-prop) instead.
+
 ## Install
 
 install from npm:
@@ -35,8 +39,8 @@ interface ToDoEvents {
     stateChanged: boolean
 }
 
-@tc.component<ToDoProps, ToDo>({
-    // each prop names are checked by compiler
+@tc.component(ToDo /* pass target class itself as first argument */, {
+    // each prop names and types are checked by compiler
     props: {
         title: { type: String, required: true },
         done: { type: Boolean, default: false }
@@ -69,6 +73,26 @@ class ToDo extends tc.EvTypedComponent<ToDoProps, ToDoEvents> {
 }
 ```
 
+You can specify type parameters explicitly instead of passing target class as first argument.
+(just for backward compatibility)
+
+```typescript
+@tc.component<ToDoProps, ToDo>({
+    props: {
+        title: { type: String, required: true },
+        done: { type: Boolean, default: false }
+    },
+    template: `
+        <div @click="clicked">
+            <span :style="style">{{ title }}</span>
+        </div>
+    `
+})
+class ToDo extends tc.EvTypedComponent<ToDoProps, ToDoEvents> {
+    /* snip */
+}
+```
+
 If you want to define component with `$data`, use `VueStatefulComponent` instead.
 
 ```typescript
@@ -82,7 +106,7 @@ interface ToDoData {
     done: boolean;
 }
 
-@tc.component<ToDoProps, ToDo>({
+@tc.component(ToDo, {
     // each prop names are checked by compiler
     props: {
         title: { type: String, required: true }
@@ -119,6 +143,8 @@ class ToDo extends tc.StatefulTypedComponent<ToDoProps, ToDoData> {
 ```
 
 Helper function to define functional component is also in.
+
+**Duprecated** : because `Vue.extend` is now type-safe enough for functional component
 
 ```typescript
 import * as tc from "vue-typed-component"
