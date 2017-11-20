@@ -16,10 +16,7 @@
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true
   },
-  "filesGlob": [
+  "include": [
     "*.ts"
-  ],
-  "exclude": [
-    "lib.d.ts"
   ]
 }
