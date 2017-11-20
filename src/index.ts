@@ -91,7 +91,7 @@ export abstract class StatefulEvTypedComponent<
 /*
  * Typesafe definition of decorator
  */
-export type ComponentDecorator<V extends Vue> = (origClass: VueClass<V>) => VueClass<V>;
+export type ComponentDecorator<V extends Vue> = (origClass: VueClass<V>) => any;
 
 // convert `{ foo?: X, bar?: Y }` to `{ foo: X|undefined, bar: Y|undefined }`
 export type StripOptional<T> = T & Record<keyof T, {} | undefined>;
