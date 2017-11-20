@@ -9,6 +9,8 @@ before_install:
 script:
 - npm run build
 - npm test
+- npm update
+- npm test
 deploy:
   provider: npm
   email: iwata0303@gmail.com
