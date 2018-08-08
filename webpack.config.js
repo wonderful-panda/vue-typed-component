@@ -1,6 +1,7 @@
 var path = require("path");
 
 module.exports = {
+    mode: "development",
     context: path.join(__dirname, "src"),
     entry: "./index.ts",
     output: {
@@ -9,18 +10,13 @@ module.exports = {
         path: path.join(__dirname, "lib"),
         filename: "index.js"
     },
-    devtool: 'source-map',
+    devtool: "source-map",
     resolve: {
         extensions: [".ts"],
-        modules: [ path.join(__dirname, "src"), "node_modules" ]
+        modules: [path.join(__dirname, "src"), "node_modules"]
     },
     module: {
-        loaders: [
-          { test: /\.ts$/, loader: "ts-loader", exclude: /node_modules/ }
-        ]
+        rules: [{ test: /\.ts$/, loader: "ts-loader", exclude: /node_modules/ }]
     },
-    externals: [
-        "vue",
-        "vue-tsx-support"
-    ]
+    externals: ["vue", "vue-tsx-support"]
 };

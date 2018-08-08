@@ -8,23 +8,25 @@ export type VueClass<T> = {
     new (...args: any[]): T;
 } & typeof Vue;
 
+export type StringKeyOf<T> = Extract<keyof T, string>;
+
 /*
  * Mapped types
  */
 export type PropsDefinition<PropKeys extends string> = { [K in PropKeys]: PropValidator<any> };
 
 export interface EventsObject<Events> {
-    emit: <K extends keyof Events>(event: K, arg: Events[K]) => any;
-    on: <K extends keyof Events>(event: K, callback: (arg: Events[K]) => any) => any;
-    once: <K extends keyof Events>(event: K, callback: (arg: Events[K]) => any) => any;
-    off: <K extends keyof Events>(event: K, callback?: (arg: Events[K]) => any) => any;
+    emit: <K extends StringKeyOf<Events>>(event: K, arg: Events[K]) => any;
+    on: <K extends StringKeyOf<Events>>(event: K, callback: (arg: Events[K]) => any) => any;
+    once: <K extends StringKeyOf<Events>>(event: K, callback: (arg: Events[K]) => any) => any;
+    off: <K extends StringKeyOf<Events>>(event: K, callback?: (arg: Events[K]) => any) => any;
 }
 
 /*
  * Typesafe wrappers of types exposed from vue
  */
 export type PropTypedComponentOptions<V extends Vue, Props> = ComponentOptions<V> & {
-    props: PropsDefinition<keyof Props>;
+    props: PropsDefinition<StringKeyOf<Props>>;
 };
 
 export type RenderFuncitonalComponent<Props> = (this: never, h: CreateElement, context: RenderContext<Props>) => VNode;
@@ -36,7 +38,7 @@ export type TypedComponentBase<Props> = { $props: Props } & Vue;
 
 // for component which has props
 export class TypedComponent<Props, ScopedSlots = {}> extends tsx.Component<Props, {}, ScopedSlots> {
-    $props: Props;
+    $props!: Props;
 }
 
 // for component which has props and events
@@ -45,7 +47,7 @@ export class EvTypedComponent<Props, Events, EventsOn = {}, ScopedSlots = {}> ex
     EventsOn,
     ScopedSlots
 > {
-    $props: Props;
+    $props!: Props;
     get $events(): EventsObject<Events> {
         return {
             emit: this.$emit.bind(this),
@@ -62,8 +64,8 @@ export abstract class StatefulTypedComponent<Props, Data, ScopedSlots = {}> exte
     {},
     ScopedSlots
 > {
-    $props: Props;
-    $data: Data;
+    $props!: Props;
+    $data!: Data;
     abstract data(): Data;
 }
 
@@ -75,7 +77,7 @@ export abstract class StatefulEvTypedComponent<
     EventsOn = {},
     ScopedSlots = {}
 > extends tsx.Component<Props, EventsOn, ScopedSlots> {
-    $props: Props;
+    $props!: Props;
     get $events(): EventsObject<Events> {
         return {
             emit: this.$emit.bind(this),
@@ -84,7 +86,7 @@ export abstract class StatefulEvTypedComponent<
             off: this.$off.bind(this)
         };
     }
-    $data: Data;
+    $data!: Data;
     abstract data(): Data;
 }
 
@@ -94,7 +96,7 @@ export abstract class StatefulEvTypedComponent<
 export type ComponentDecorator<V extends Vue> = (origClass: VueClass<V>) => any;
 
 // convert `{ foo?: X, bar?: Y }` to `{ foo: X|undefined, bar: Y|undefined }`
-export type StripOptional<T> = T & Record<keyof T, {} | undefined>;
+export type StripOptional<T> = { [K in StringKeyOf<T>]-?: T[K] | undefined };
 
 export interface ComponentDecoratorFactory {
     <Props, V extends TypedComponentBase<Props>>(
@@ -116,7 +118,7 @@ export const component: ComponentDecoratorFactory = (...args: any[]) => {
  */
 export function functionalComponent<Props>(
     name: string,
-    props: PropsDefinition<keyof Props>,
+    props: PropsDefinition<StringKeyOf<Props>>,
     render: RenderFuncitonalComponent<Props>
 ): tsx.TsxComponent<Vue, Props, {}> {
     return Vue.extend({

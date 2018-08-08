@@ -10,9 +10,8 @@ interface Data {
 @tc.component<Props>({
     props: { foo: String }
 })
-class Component1    //// TS2415: Type 'number' is not assignable to type 'string'.
-    extends tc.StatefulTypedComponent<Props, Data> {
-    data() {
+class Component1 extends tc.StatefulTypedComponent<Props, Data> {
+    data() {        //// TS2416: Type 'number' is not assignable to type 'string'.
         return { bar: 1 };
     }
 }
@@ -20,9 +19,8 @@ class Component1    //// TS2415: Type 'number' is not assignable to type 'string
 @tc.component<Props>({
     props: { foo: String }
 })
-class Component2    //// TS2415: Property 'bar' is missing in type '{ baz: string; }'.
-    extends tc.StatefulTypedComponent<Props, Data> {
-    data() {
+class Component2 extends tc.StatefulTypedComponent<Props, Data> {
+    data() {        //// TS2416: Property 'bar' is missing in type '{ baz: string; }'.
         return { baz: "value" };
     }
 }
@@ -30,9 +28,8 @@ class Component2    //// TS2415: Property 'bar' is missing in type '{ baz: strin
 @tc.component(Component3, {
     props: { foo: String }
 })
-class Component3    //// TS2415: Type 'number' is not assignable to type 'string'.
-    extends tc.StatefulTypedComponent<Props, Data> {
-    data() {
+class Component3 extends tc.StatefulTypedComponent<Props, Data> {
+    data() {        //// TS2416: Type 'number' is not assignable to type 'string'.
         return { bar: 1 };
     }
 }
@@ -40,9 +37,8 @@ class Component3    //// TS2415: Type 'number' is not assignable to type 'string
 @tc.component(Component4, {
     props: { foo: String }
 })
-class Component4    //// TS2415: Property 'bar' is missing in type '{ baz: string; }'.
-    extends tc.StatefulTypedComponent<Props, Data> {
-    data() {
+class Component4 extends tc.StatefulTypedComponent<Props, Data> {
+    data() {        //// TS2416: Property 'bar' is missing in type '{ baz: string; }'.
         return { baz: "value" };
     }
 }

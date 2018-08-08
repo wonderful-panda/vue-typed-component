@@ -1,7 +1,6 @@
 import Vue, { VNode } from "vue";
-import * as tc from "../..";
-
 Vue.config.productionTip = false;
+import * as tc from "../..";
 
 async function mount(component: typeof Vue, props: any): Promise<Vue> {
     const vm = new Vue({
