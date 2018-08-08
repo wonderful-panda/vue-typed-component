@@ -1,6 +1,6 @@
 {
     "name": "vue-typed-component",
-    "version": "0.10.2",
+    "version": "0.11.0",
     "description": "vue-class-component wrapper to make components more typesafe",
     "main": "lib/index.js",
     "typings": "lib/index.d.ts",
@@ -62,7 +62,7 @@
             "json"
         ],
         "moduleNameMapper": {
-          "^vue$": "<rootDir>/node_modules/vue/dist/vue.js"
+            "^vue$": "<rootDir>/node_modules/vue/dist/vue.js"
         },
         "testRegex": "test/jest/(.*)\\.test.ts$",
         "transform": {
