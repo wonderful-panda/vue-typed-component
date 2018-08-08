@@ -4,10 +4,13 @@
 Make vue-class-component more typesafe
 
 ## Requirement
-- TypeScript >= 2.5
-- Vue >= 2.5
+- TypeScript >= 2.8
+- Vue >= 2.5.13
 
 ## Breaking changes
+- 0.11.0
+  - Support TypeScript >= 2.8 only.
+  - Support Vue >= 2.5.13 only.
 - 0.10.0
   - Undocumented api `props` has removed. Use [vue-strict-prop](https://github.com/wonderful-panda/vue-strict-prop) instead.
 
